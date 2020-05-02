@@ -1,0 +1,46 @@
+STRINGTABLE
+{
+	SITG_MODULE_NOM			"...";
+
+	SITG_IMPORT_DOSSIER_NOM	"Importer un dossier complet";
+	SITG_IMPORT_DOSSIER_HLP	"cr\u00E9e une maquette compl\u00e8te \u00E0 partir d'un dossier contenant des dossiers d\u00E9compress\u00E9s provenant du SITG";
+
+	SITG_IMPORT_JEU_DONNEES_NOM "Importer un dossier Jeu de donn\u00E9es 3D";
+	SITG_IMPORT_JEU_DONNEES_HLP "cr\u00E9e une maquette compl\u00e8te \u00E0 partir d'un dossier 'Format 3D Jeu de donn\u00E9es pour maquette 3D (3DS)' du SITG";
+
+	SITG_EXTRACTEUR_WEB_NOM	"Extracteur SITG";
+	SITG_EXTRACTEUR_WEB_HLP	"ouvre l'extracteur SITG, si le document est g\u00E9or\u00E9f\u00E9renc\u00E9 zoom sur le centre du document \u00E0 l'\u00E9chelle 1:2500, si un objet est s\u00E9lectionn\u00E9e zoom sur l'emprise de l'\u00E9l\u00E9ment";
+
+	SITG_ACTIVETEXTURE_NOM	"Activer la texture s\u00E9lectionn\u00E9e";
+	SITG_ACTIVETEXTURE_HLP	"place toutes les propri\u00E9t\u00E9s texture utilisant le mat\u00E9riau s\u00E9l\u00E9ctionn\u00E9 \u00E0 droite";
+
+
+	SITG_IMPORT_RASTER_NOM	"Importer une image g\u00E9or\u00E9f\u00E9renc\u00E9e";
+	SITG_IMPORT_RASTER_HLP	"importe une image g\u00E9or\u00E9f\u00E9renc\u00E9e, si un objet est s\u00E9l\u00E9ctionn\u00E9 place une propri\u00E9t\u00E9 texture sur l'\u00E9l\u00E9ment, sinon cr\u00E9e un plan textur\u00E9 aux dimensions de l'image";
+
+	SITG_IMPORT_SHAPE_NOM	"Importer un fichier ESRI/shape";
+	SITG_IMPORT_SHAPE_HLP	"importe un fichier ESRI/shape";
+
+	
+
+	SITG_IMPORT_MNT_MNT     "Importer un MNT/MNS(ASCII-GRID)";
+	SITG_IMPORT_MNT_HLP     "importe un MNT/MNS(ASCII-GRID)";
+
+	SITG_IMPORT_3DS_NOM		"Importer 3DS (b\u00e2timents ou terrain)";
+	SITG_IMPORT_3DS_HLP		"importe un fichier 3DS provenant du SITG (b\u00e2timents, terrain ou ouvrage d'art)";
+
+	SITG_IMPORT_ARBRES_SSIG_NOM		"Importer les arbres SSIG/IGN";
+	SITG_IMPORT_ARBRES_SSIG_HLP		"Importe les arbres isol\u00E9s et forestiers selon l'emprise de l'objet s\u00E9lectionn\u00E9";
+
+	SITG_GRPE_SUR_TERRAIN_NOM  "Groupe sur terrain";
+	SITG_GRPE_SUR_TERRAIN_HLP  "plaque les enfants de l'objet s\u00E9lectionn\u00E9 sur l'objet polygonal plac\u00E9 juste apr\u00e8s dans la hi\u00E9rarchie";
+
+	SITG_GEOREF_OBJ_NOM        "G\u00E9or\u00E9f\u00E9rencer les objets";
+	SITG_GEOREF_OBJ_HLP        "g\u00E9or\u00E9f\u00E9rence les objets s\u00E9lectionn\u00E9s en leurs appliquant un Geotag, pour pouvoir le copier/coller dans un autre document par exemple";
+
+	SITG_IMPORT_SHAPE_BATI_NOM "Importer un shape bati projet (alt_base,alt_haut)";
+	SITG_IMPORT_SHAPE_BATI_HLP "Importe un fichier shape de type polygone avec le champ 'alt_base' comme altitude et la diff\u00E9rence entre les champs 'alt_haut' et 'alt_base'pour la hauteur d'extrusion";
+
+	SITG_IMPORT_SHAPE_BATI2_NOM "Importer un shape bati projet (HAUTEUR)";
+	SITG_IMPORT_SHAPE_BATI2_HLP "Importe un fichier shape de type polygone avec le champ 'HAUTEUR' comme hauteur d'extrusion, la base restant au niveau 0 (utiliser ensuite Groupe sur terrain)";
+}
