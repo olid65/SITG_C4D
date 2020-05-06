@@ -1,0 +1,10 @@
+CONTAINER geotag
+{
+	NAME geotag;
+	INCLUDE Texpression;
+	GROUP ID_TAGPROPERTIES
+	{
+        STATICTEXT TAG_ORIGIN {}
+        STATICTEXT DOC_ORIGIN {}
+	}
+}

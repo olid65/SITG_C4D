@@ -1,0 +1,4 @@
+STRINGTABLE geotag
+{
+	geotag "GeoTag";
+}

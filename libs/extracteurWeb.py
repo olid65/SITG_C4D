@@ -21,7 +21,7 @@ def main():
     op = doc.GetActiveObject()
 
     #url de base avec extracteur
-    url = 'http://ge.ch/carte/pro/?method=showextractpanel'
+    url = 'https://www.etat.ge.ch/geoportail/pro/?method=showextractpanel'
     
     #calcul de l'extension de la carte par rapport à l'objet sélectionné
     origine = doc[CONTAINER_ORIGIN]

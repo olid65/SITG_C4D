@@ -29,8 +29,8 @@ STRINGTABLE
 	SITG_IMPORT_3DS_NOM		"Importer 3DS (b\u00e2timents ou terrain)";
 	SITG_IMPORT_3DS_HLP		"importe un fichier 3DS provenant du SITG (b\u00e2timents, terrain ou ouvrage d'art)";
 
-	SITG_IMPORT_ARBRES_SSIG_NOM		"Importer les arbres SSIG/IGN";
-	SITG_IMPORT_ARBRES_SSIG_HLP		"Importe les arbres isol\u00E9s et forestiers selon l'emprise de l'objet s\u00E9lectionn\u00E9";
+	SITG_IMPORT_ARBRES_SSIG_NOM		"Importer les arbres 2018";
+	SITG_IMPORT_ARBRES_SSIG_HLP		"Importe les arbres selon l'emprise de l'objet s\u00E9lectionn\u00E9";
 
 	SITG_GRPE_SUR_TERRAIN_NOM  "Groupe sur terrain";
 	SITG_GRPE_SUR_TERRAIN_HLP  "plaque les enfants de l'objet s\u00E9lectionn\u00E9 sur l'objet polygonal plac\u00E9 juste apr\u00e8s dans la hi\u00E9rarchie";

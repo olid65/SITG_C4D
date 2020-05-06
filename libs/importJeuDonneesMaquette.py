@@ -13,9 +13,9 @@ WIN =  c4d.GeGetCurrentOS()==c4d.OPERATINGSYSTEM_WIN
 CONTAINER_ORIGIN =1026473
 
 
-NOM_FICHIER_ARBRES = '__arbresIGN__.c4d'
+NOM_FICHIER_ARBRES = '__arbres2018__.c4d'
 NOM_FICHIER_ORTHO = 'ORTHOPHOTOS.tif'
-NOM_FICHIER_CALAGE = NOM_FICHIER_ORTHO[:-2]+NOM_FICHIER_ORTHO[-1]+'w'
+NOM_FICHIER_CALAGE = 'ORTHOPHOTOS.tfw'
 
 
 MNT_FILE = 'MNT.3ds'
@@ -650,10 +650,10 @@ def main(fn_arbres):
         pred.Remove()
         
     #ARBRES
-    mnt = doc.SearchObject('MNT')
-    arbres = arbresIGN(mnt,fn_arbres)
-    if arbres :
-        arbres.InsertUnder(model_cut)
+    # mnt = doc.SearchObject('MNT')
+    # arbres = arbresIGN(mnt,fn_arbres)
+    # if arbres :
+    #     arbres.InsertUnder(model_cut)
     
     ###ORTHOPHOTO
     fn_ortho = os.path.join(path,NOM_FICHIER_ORTHO)

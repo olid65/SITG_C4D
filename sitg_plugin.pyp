@@ -42,9 +42,6 @@ __date__    = "28/04/2020"
         -import dossier : tous les fichiers sont pris en compte dans la hiérarchie -> à terminer et à améliorer
 """
 
-#Attention pour les nos de série prendre uniquement les 5 derniers chiffres
-__noC4D__ = [13943, 13944, 22339, 22340, 22341, 22342]
-
 sys.path.append(os.path.join(os.path.dirname(__file__),'libs'))
 import importDossier
 import importJeuDonneesMaquette
@@ -203,10 +200,13 @@ def icone(nom) :
     return bmp
     
 if __name__=='__main__':
+    c4d.plugins.RegisterCommandPlugin(id=SITG_IMPORT_JEU_DONNEES_ID, str="#$00" + txt(SITG_IMPORT_JEU_DONNEES_NOM),
+                                      info=0, help=txt(SITG_IMPORT_JEU_DONNEES_HLP), dat=ImportJeuDonneesMaquette(),
+                                      icon=icone("sitg2.tif"))
 
-    c4d.plugins.RegisterCommandPlugin(id=SITG_IMPORT_DOSSIER_ID, str = "#$00" + txt(SITG_IMPORT_DOSSIER_NOM), info = 0, help = txt(SITG_IMPORT_DOSSIER_HLP), dat = ImportDossier(), icon = icone("sitg2.tif"))
+    c4d.plugins.RegisterCommandPlugin(id=SITG_IMPORT_DOSSIER_ID, str = "#$01" + txt(SITG_IMPORT_DOSSIER_NOM), info = 0, help = txt(SITG_IMPORT_DOSSIER_HLP), dat = ImportDossier(), icon = icone("sitg2.tif"))
 
-    c4d.plugins.RegisterCommandPlugin(id=SITG_IMPORT_JEU_DONNEES_ID, str = "#$01" + txt(SITG_IMPORT_JEU_DONNEES_NOM), info = 0, help = txt(SITG_IMPORT_JEU_DONNEES_HLP), dat = ImportJeuDonneesMaquette(), icon = icone("sitg2.tif"))
+
     
     c4d.plugins.RegisterCommandPlugin(id=SITG_SEPARATOR_01, str = "#$05--", info = 0, help = "", dat = SITG(), icon = None)
 
