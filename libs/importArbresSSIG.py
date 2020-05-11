@@ -49,6 +49,8 @@ def create_point_object(points):
     res.Message(c4d.MSG_UPDATE)
     return res
 
+#BUG => avec c4d.BaseObject() lorque l'on crée un effecteur si on ferme le fichier et on réouvre l'effecteur ne marche plus !!
+# => je change provisoirement avec un CallCommand()
 def create_effector(name,select = None, typ = ID_PLAIN_EFFECTOR):
     res = c4d.BaseObject(typ)
     res.SetName(name)
@@ -56,8 +58,25 @@ def create_effector(name,select = None, typ = ID_PLAIN_EFFECTOR):
         res[c4d.ID_MG_BASEEFFECTOR_SELECTION] = select
     return res
 
+def create_plain_effector_CallCommand(doc,name,select = None):
+    c4d.CallCommand(1021337)  # Effecteur Simple
+    #c4d.CallCommand(1018643)  # Effecteur Randomisation
+    res = doc.GetFirstObject()
+    res.SetName(name)
+    if select:
+        res[c4d.ID_MG_BASEEFFECTOR_SELECTION] = select
+    return res
 
-def create_mograph_cloner(points, hauteurs, diametres, objs_srces):
+def create_random_effector_CallCommand(doc,name,select = None):
+    c4d.CallCommand(1018643)  # Effecteur Randomisation
+    res = doc.GetFirstObject()
+    res.SetName(name)
+    if select:
+        res[c4d.ID_MG_BASEEFFECTOR_SELECTION] = select
+    return res
+
+
+def create_mograph_cloner(doc,points, hauteurs, diametres, objs_srces):
     # tag = doc.GetActiveTag()
     # print c4d.modules.mograph.GeGetMoDataWeights(tag)
     # return
@@ -98,19 +117,22 @@ def create_mograph_cloner(points, hauteurs, diametres, objs_srces):
     #tagDiametres.SetDirty(c4d.DIRTYFLAGS_DATA) #plus besoin depuis la r21 !
 
     # Effecteur simple hauteurs
-    effector_heights = create_effector(NOM_EFFECTOR_HAUTEURS, select=tagHauteurs.GetName())
+    #effector_heights = create_effector(NOM_EFFECTOR_HAUTEURS, select=tagHauteurs.GetName())
+    effector_heights = create_plain_effector_CallCommand(doc, NOM_EFFECTOR_HAUTEURS, select=tagHauteurs.GetName())
     effector_heights[c4d.ID_MG_BASEEFFECTOR_POSITION_ACTIVE] = False
     effector_heights[c4d.ID_MG_BASEEFFECTOR_SCALE_ACTIVE] = True
     effector_heights[c4d.ID_MG_BASEEFFECTOR_SCALE, c4d.VECTOR_Y] = FACTEUR_HAUT
 
     # Effecteur simple diametres
-    effector_diam = create_effector(NOM_EFFECTOR_DIAMETRES, select=tagDiametres.GetName())
+    #effector_diam = create_effector(NOM_EFFECTOR_DIAMETRES, select=tagDiametres.GetName())
+    effector_diam = create_plain_effector_CallCommand(doc, NOM_EFFECTOR_DIAMETRES, select=tagHauteurs.GetName())
     effector_diam[c4d.ID_MG_BASEEFFECTOR_POSITION_ACTIVE] = False
     effector_diam[c4d.ID_MG_BASEEFFECTOR_SCALE_ACTIVE] = True
     effector_diam[c4d.ID_MG_BASEEFFECTOR_SCALE] = c4d.Vector(FACTEUR_DIAMETRE, 0, FACTEUR_DIAMETRE)
 
     # Effecteur random
-    effector_random = create_effector(NOM_EFFECTOR_RANDOM, typ=ID_RANDOM_EFFECTOR)
+    #effector_random = create_effector(NOM_EFFECTOR_RANDOM, typ=ID_RANDOM_EFFECTOR)
+    effector_random=create_random_effector_CallCommand(doc, NOM_EFFECTOR_RANDOM)
     effector_random[c4d.ID_MG_BASEEFFECTOR_POSITION_ACTIVE] = False
     effector_random[c4d.ID_MG_BASEEFFECTOR_ROTATE_ACTIVE] = True
     effector_random[c4d.ID_MG_BASEEFFECTOR_ROTATION, c4d.VECTOR_X] = pi * 2
@@ -263,7 +285,7 @@ def arbresIGN(mnt,fn_arbres):
     
     #creation des instances
 
-    res = create_mograph_cloner(pos, haut, diam, srce_veget)
+    res = create_mograph_cloner(doc,pos, haut, diam, srce_veget)
     
     #foret
     # foret = c4d.BaseObject(c4d.Onull)
