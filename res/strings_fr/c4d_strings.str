@@ -38,9 +38,9 @@ STRINGTABLE
 	SITG_GEOREF_OBJ_NOM        "G\u00E9or\u00E9f\u00E9rencer les objets";
 	SITG_GEOREF_OBJ_HLP        "g\u00E9or\u00E9f\u00E9rence les objets s\u00E9lectionn\u00E9s en leurs appliquant un Geotag, pour pouvoir le copier/coller dans un autre document par exemple";
 
-	SITG_IMPORT_SHAPE_BATI_NOM "Importer un shape bati projet (alt_base,alt_haut)";
+	SITG_IMPORT_SHAPE_BATI_NOM "Importer un shape b\u00E2timents (alt_base,alt_haut)";
 	SITG_IMPORT_SHAPE_BATI_HLP "Importe un fichier shape de type polygone avec le champ 'alt_base' comme altitude et la diff\u00E9rence entre les champs 'alt_haut' et 'alt_base'pour la hauteur d'extrusion";
 
-	SITG_IMPORT_SHAPE_BATI2_NOM "Importer un shape bati projet (HAUTEUR)";
+	SITG_IMPORT_SHAPE_BATI2_NOM "Importer un shape b\u00E2timents (HAUTEUR)";
 	SITG_IMPORT_SHAPE_BATI2_HLP "Importe un fichier shape de type polygone avec le champ 'HAUTEUR' comme hauteur d'extrusion, la base restant au niveau 0 (utiliser ensuite Groupe sur terrain)";
 }

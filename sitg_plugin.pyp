@@ -6,8 +6,8 @@ import webbrowser
 #from c4d import plugins, bitmaps, gui, documents, Vector
 from c4d.plugins import GeLoadString as txt
 
-__version__ = 1.20
-__date__    = "28/04/2020"
+__version__ = 2.00
+__date__    = "11/05/2020"
 
 """ TODO :
     - undo pour import MNT (voir si besoin pour les autres)
