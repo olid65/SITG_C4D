@@ -2,8 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b2dfb075-3f4c-4b83-b863-03531f974327" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/libs/importArbresShapePoint.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/libs/import_SwissBuildings3D.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/project/projectdefinition.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/shapefile.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/shapefile.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/importArbresSSIG.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/importArbresSSIG.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/importJeuDonneesMaquette.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/importJeuDonneesMaquette.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/importShapefile.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/importShapefile.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/c4d_symbols.h" beforeDir="false" afterPath="$PROJECT_DIR$/res/c4d_symbols.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/strings_fr/c4d_strings.str" beforeDir="false" afterPath="$PROJECT_DIR$/res/strings_fr/c4d_strings.str" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sitg_plugin.pyp" beforeDir="false" afterPath="$PROJECT_DIR$/sitg_plugin.pyp" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -25,39 +33,44 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="py" value="8" />
+          <entry key="h" value="1" />
+          <entry key="importArbresShapePoint" value="1" />
+          <entry key="py" value="10" />
           <entry key="pyp" value="1" />
-          <entry key="str" value="1" />
+          <entry key="str" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="PLAIN_TEXT" value="2" />
-          <entry key="Python" value="8" />
+          <entry key="C++" value="1" />
+          <entry key="PLAIN_TEXT" value="3" />
+          <entry key="Python" value="11" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="py" value="1401" />
-          <entry key="pyp" value="24" />
-          <entry key="str" value="13" />
+          <entry key="h" value="7" />
+          <entry key="py" value="1403" />
+          <entry key="pyp" value="298" />
+          <entry key="str" value="485" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="PLAIN_TEXT" value="13" />
-          <entry key="Python" value="1425" />
+          <entry key="C++" value="7" />
+          <entry key="PLAIN_TEXT" value="485" />
+          <entry key="Python" value="1701" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/sitg_plugin.pyp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3405">
-              <caret line="230" column="135" selection-start-line="230" selection-start-column="135" selection-end-line="230" selection-end-column="135" />
+            <state relative-caret-position="559">
+              <caret line="179" column="92" selection-start-line="179" selection-start-column="92" selection-end-line="179" selection-end-column="92" />
               <folding>
                 <element signature="e#26#45#0" expanded="true" />
               </folding>
@@ -66,10 +79,55 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/c4d_symbols.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="720">
+              <caret line="48" column="42" selection-start-line="48" selection-start-column="42" selection-end-line="48" selection-end-column="42" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/libs/import_SwissBuildings3D.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="405">
+              <caret line="27" lean-forward="true" selection-start-line="27" selection-end-line="27" />
+              <folding>
+                <element signature="e#25#35#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/res/strings_fr/c4d_strings.str">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="765">
+              <caret line="51" column="1" lean-forward="true" selection-start-line="51" selection-start-column="1" selection-end-line="51" selection-end-column="1" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/libs/importShapeBatiDALE2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2475">
-              <caret line="166" selection-start-line="166" selection-end-line="166" />
+            <state>
+              <caret selection-end-column="23" />
+              <folding>
+                <element signature="e#25#35#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/libs/importArbresShapePoint.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="23" selection-start-column="23" selection-end-column="23" />
+              <folding>
+                <element signature="e#0#10#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -82,8 +140,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/libs/importJeuDonneesMaquette.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="420">
-              <caret line="29" column="39" selection-start-line="29" selection-start-column="39" selection-end-line="29" selection-end-column="39" />
+            <state relative-caret-position="15">
+              <caret line="1" selection-start-line="1" selection-end-line="1" />
             </state>
           </provider>
         </entry>
@@ -100,8 +158,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/libs/importArbresSSIG.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1665">
-              <caret line="113" column="82" selection-start-line="113" selection-start-column="82" selection-end-line="113" selection-end-column="82" />
+            <state relative-caret-position="75">
+              <caret line="5" selection-start-line="5" selection-end-line="5" />
               <folding>
                 <element signature="e#198#226#0" expanded="true" />
               </folding>
@@ -109,40 +167,14 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/libs/shapefile.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="18540">
-              <caret line="1236" column="19" lean-forward="true" selection-start-line="1236" selection-start-column="19" selection-end-line="1236" selection-end-column="19" />
-              <folding>
-                <element signature="e#194#250#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/libs/importShapefile.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
-              <folding>
-                <element signature="e#25#35#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/res/strings_fr/c4d_strings.str">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="480">
-              <caret line="32" column="46" selection-start-line="32" selection-start-column="46" selection-end-line="32" selection-end-column="46" />
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -162,19 +194,22 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/libs/extracteurWeb.py" />
-        <option value="$PROJECT_DIR$/libs/importJeuDonneesMaquette.py" />
-        <option value="$PROJECT_DIR$/libs/importArbresSSIG.py" />
-        <option value="$PROJECT_DIR$/sitg_plugin.pyp" />
         <option value="$PROJECT_DIR$/libs/importShapeBatiDALE2.py" />
-        <option value="$PROJECT_DIR$/res/strings_fr/c4d_strings.str" />
-        <option value="$PROJECT_DIR$/libs/importShapefile.py" />
         <option value="$PROJECT_DIR$/libs/shapefile.py" />
+        <option value="$PROJECT_DIR$/libs/importShapefile.py" />
+        <option value="$PROJECT_DIR$/libs/importArbresSSIG.py" />
+        <option value="$PROJECT_DIR$/libs/importJeuDonneesMaquette.py" />
+        <option value="$PROJECT_DIR$/libs/import_SwissBuildings3D.py" />
+        <option value="$PROJECT_DIR$/libs/importArbresShapePoint.py" />
+        <option value="$PROJECT_DIR$/res/strings_fr/c4d_strings.str" />
+        <option value="$PROJECT_DIR$/res/c4d_symbols.h" />
+        <option value="$PROJECT_DIR$/sitg_plugin.pyp" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="181" />
-    <option name="y" value="29" />
+    <option name="x" value="399" />
+    <option name="y" value="28" />
     <option name="width" value="2138" />
     <option name="height" value="1369" />
   </component>
@@ -194,6 +229,11 @@
               <item name="SITG_C4D" type="b2602c69:ProjectViewProjectNode" />
               <item name="SITG_C4D" type="462c0819:PsiDirectoryNode" />
               <item name="libs" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SITG_C4D" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SITG_C4D" type="462c0819:PsiDirectoryNode" />
+              <item name="project" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="SITG_C4D" type="b2602c69:ProjectViewProjectNode" />
@@ -219,6 +259,11 @@
   </component>
   <component name="PropertiesComponent">
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/libs" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -246,7 +291,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="181" y="29" width="2138" height="1369" extended-state="0" />
+    <frame x="399" y="28" width="2138" height="1369" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.15540859" />
@@ -272,30 +317,43 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/sitg_plugin.pyp">
+    <entry file="file://$USER_HOME$/Downloads/pyshp-2.1.0/shapefile.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libs/shapefile.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3405">
-          <caret line="230" column="135" selection-start-line="230" selection-start-column="135" selection-end-line="230" selection-end-column="135" />
+        <state relative-caret-position="14691">
+          <caret line="1236" column="19" selection-start-line="1236" selection-start-column="19" selection-end-line="1236" selection-end-column="19" />
           <folding>
-            <element signature="e#26#45#0" expanded="true" />
+            <element signature="e#194#250#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/libs/importShapeBatiDALE2.py">
+    <entry file="file://$PROJECT_DIR$/libs/importShapefile.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2475">
-          <caret line="166" selection-start-line="166" selection-end-line="166" />
+        <state relative-caret-position="285">
+          <caret line="19" selection-start-line="19" selection-end-line="28" selection-end-column="17" />
+          <folding>
+            <element signature="e#25#35#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/libs/importShapeBatiDALE.py">
-      <provider selected="true" editor-type-id="text-editor" />
+    <entry file="file://$PROJECT_DIR$/libs/importArbresSSIG.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" selection-start-line="5" selection-end-line="5" />
+          <folding>
+            <element signature="e#198#226#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/libs/importJeuDonneesMaquette.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="29" column="39" selection-start-line="29" selection-start-column="39" selection-end-line="29" selection-end-column="39" />
+        <state relative-caret-position="15">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
         </state>
       </provider>
     </entry>
@@ -306,42 +364,62 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/libs/importArbresSSIG.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1665">
-          <caret line="113" column="82" selection-start-line="113" selection-start-column="82" selection-end-line="113" selection-end-column="82" />
-          <folding>
-            <element signature="e#198#226#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/res/strings_fr/c4d_strings.str">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="32" column="46" selection-start-line="32" selection-start-column="46" selection-end-line="32" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Downloads/pyshp-2.1.0/shapefile.py">
+    <entry file="file://$PROJECT_DIR$/libs/importShapeBatiDALE.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/libs/importShapefile.py">
+    <entry file="file://$PROJECT_DIR$/libs/importArbresShapePoint">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libs/importShapeBatiDALE2.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
+        <state>
+          <caret selection-end-column="23" />
           <folding>
             <element signature="e#25#35#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/libs/shapefile.py">
+    <entry file="file://$PROJECT_DIR$/libs/importArbresShapePoint.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="18540">
-          <caret line="1236" column="19" lean-forward="true" selection-start-line="1236" selection-start-column="19" selection-end-line="1236" selection-end-column="19" />
+        <state>
+          <caret column="23" selection-start-column="23" selection-end-column="23" />
           <folding>
-            <element signature="e#194#250#0" expanded="true" />
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libs/import_SwissBuildings3D.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="27" lean-forward="true" selection-start-line="27" selection-end-line="27" />
+          <folding>
+            <element signature="e#25#35#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/strings_fr/c4d_strings.str">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="765">
+          <caret line="51" column="1" lean-forward="true" selection-start-line="51" selection-start-column="1" selection-end-line="51" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/res/c4d_symbols.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="720">
+          <caret line="48" column="42" selection-start-line="48" selection-start-column="42" selection-end-line="48" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sitg_plugin.pyp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="559">
+          <caret line="179" column="92" selection-start-line="179" selection-start-column="92" selection-end-line="179" selection-end-column="92" />
+          <folding>
+            <element signature="e#26#45#0" expanded="true" />
           </folding>
         </state>
       </provider>

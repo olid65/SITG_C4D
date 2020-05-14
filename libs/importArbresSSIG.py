@@ -1,10 +1,5 @@
 # coding: utf8
 
-""" droits réservés Olivier Donzé juillet 2017
-    à l'usage exclusif de mes étudiants en bachelor, master et formation continue de l'hepia
-    
-    version 2.0 du 28 avril 2020"""
-
 import c4d, os, random, math
 from glob import glob
 from math import pi

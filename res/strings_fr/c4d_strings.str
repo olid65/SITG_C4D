@@ -43,4 +43,10 @@ STRINGTABLE
 
 	SITG_IMPORT_SHAPE_BATI2_NOM "Importer un shape b\u00E2timents (HAUTEUR)";
 	SITG_IMPORT_SHAPE_BATI2_HLP "Importe un fichier shape de type polygone avec le champ 'HAUTEUR' comme hauteur d'extrusion, la base restant au niveau 0 (utiliser ensuite Groupe sur terrain)";
+
+	SITG_IMPORT_ARBRE_SHAPE_NOM  "Importer des arbres shape de type point";
+    SITG_IMPORT_ARBRE_SHAPE_HELP "Importe un fichier shape de type point ou pointZ selon les dimensions contenues dans des champs 'hauteur','diametre', sinon les dimensions sont fix\u00E9es par d\u00E9faut. En absence de z l'altitude peut provenir d'un champ 'z' ";
+
+    SITG_IMPORT_BATI_SWISSTOPO_NOM  "Importer un dossier SwissBuildings3D shape (swisstopo)";
+    SITG_IMPORT_BATI_SWISSTOPO_NOM "Importe tous les fichiers shape multipatch du dossier choisi";
 }

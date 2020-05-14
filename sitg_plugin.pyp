@@ -6,41 +6,9 @@ import webbrowser
 #from c4d import plugins, bitmaps, gui, documents, Vector
 from c4d.plugins import GeLoadString as txt
 
-__version__ = 2.00
-__date__    = "11/05/2020"
+__version__ = 2.01
+__date__    = "14/05/2020"
 
-""" TODO :
-    - undo pour import MNT (voir si besoin pour les autres)
-    - barre import qui ne disparait pas et qui ne tourne pas quand on annule
-    - centrer les polylignes et polygones lors de l'import shape
-    - peupler des polygones avec instances
-    """
-
-"""Fait le 18 févier 2015:
-        - verouillage selon n° de série
-        - import pour Fabien
-        - import pour Alexandre
-        """
-"""11 mars: 2015
-        - options d'importation 3Ds en mètres"""
-"""22 avril v1.1:
-        -batiPLQ
-        -import arbres SSIG"""
-"""4 mai 2015 v1.11:
-   - correction bug importation importBatiShape2
-   - bati PLQ champ hauteur avec possibilité d'avoir le rez plus haut"""
-"""28 mai :
-   - bati PLQ réglages de tous les interdépendance lors de la modification d'un champ"""
-"""5 novembre 2017
-        -rajouté un module Importer un dossier Jeu de données 3D pour l'importation
-         d'un dossier SITG spécifique
-        -modification du script des arbres IGN, depuis un fichier c4d __arbresIGN__.c4d
-         placé à la racine du plugin (au lieu du shape avant avec un fichier qui donnait le chemin)
-        -géoréférencer les objets sélectionnés au lieu d'un seul
-        -import 3DS : modification suite aux changements du SITG, + ajout d'import ouvrages d'art
-        -import mnt ASC : lecture des entêtes à 5,6 ou même 7 lignes (type QGis avec dx et dy à la place de cellsize)
-        -import dossier : tous les fichiers sont pris en compte dans la hiérarchie -> à terminer et à améliorer
-"""
 
 sys.path.append(os.path.join(os.path.dirname(__file__),'libs'))
 import importDossier
@@ -56,6 +24,8 @@ import georefObjet
 import importShapefile
 import importShapeBatiDALE
 import importShapeBatiDALE2
+import importArbresShapePoint
+import import_SwissBuildings3D
 
 SITG_MODULE_ID                  = 1034152 
 SITG_IMPORT_DOSSIER_ID          = 1034151
@@ -70,7 +40,9 @@ SITG_GROUPE_SUR_TERRAIN_ID      = 1034191
 SITG_GEOREFERENCER_UN_OBJET_ID  = 1034192  
 SITG_IMPORT_SHAPE_BATI_DALE_ID  = 1034565 
 SITG_IMPORT_SHAPE_BATI_DALE2_ID = 1034660 
-SITG_IMPORT_ARBRES_SSIG_ID      = 1035166 
+SITG_IMPORT_ARBRES_SSIG_ID      = 1035166
+SITG_IMPORT_ARBRE_SHAPE_ID      = 1055058
+SITG_IMPORT_BATI_SWISSTOPO_ID   = 1055059
 
 
 SITG_SEPARATOR_01       = 1034154     
@@ -115,6 +87,12 @@ SITG_IMPORT_SHAPE_BATI_HLP = 2002
 
 SITG_IMPORT_SHAPE_BATI2_NOM = 2101
 SITG_IMPORT_SHAPE_BATI2_HLP = 2102
+
+SITG_IMPORT_ARBRE_SHAPE_NOM = 2201
+SITG_IMPORT_ARBRE_SHAPE_HLP = 2202
+
+SITG_IMPORT_BATI_SWISSTOPO_NOM = 2301
+SITG_IMPORT_BATI_SWISSTOPO_HLP = 2302
 
 NAME_FILE_ARBRES_IGN = '__arbres_2018__.c4d'
 
@@ -169,10 +147,21 @@ class Import3DS(c4d.plugins.CommandData):
         import3DS.main()
         return True
 
+class ImportSwissBuildings3Dshape(c4d.plugins.CommandData):
+    def Execute(self, doc) :
+        import_SwissBuildings3D.main()
+        return True
+
 class ImportArbresSSIG(c4d.plugins.CommandData):
     def Execute(self, doc) :
         fn_arbres = fn_arbres = os.path.join(os.path.dirname(__file__),NAME_FILE_ARBRES_IGN)
         importArbresSSIG.main(fn_arbres)
+        return True
+
+class ImportArbresShapePoint(c4d.plugins.CommandData):
+    def Execute(self, doc) :
+        fn_arbres = fn_arbres = os.path.join(os.path.dirname(__file__),NAME_FILE_ARBRES_IGN)
+        importArbresShapePoint.main(fn_arbres = fn_arbres)
         return True
 
 
@@ -188,7 +177,7 @@ class GeorefObj(c4d.plugins.CommandData):
 
 class SITG(c4d.plugins.CommandData) :
     def Execute(self, doc) :
-        webbrowser.open('http://mip.hesge.ch')
+        webbrowser.open('https://www.hesge.ch/hepia/groupe/modelisation-informatique-paysage')
         return True 
    
 
@@ -212,11 +201,16 @@ if __name__=='__main__':
 
     c4d.plugins.RegisterCommandPlugin(id=SITG_IMPORT_RASTER_ID, str = "#$06" + txt(SITG_IMPORT_RASTER_NOM), info = 0, help = txt(SITG_IMPORT_RASTER_HLP), dat = ImportRaster(), icon = icone("wld.tif"))
     c4d.plugins.RegisterCommandPlugin(id=SITG_IMPORT_SHAPE_ID, str = "#$07" + txt(SITG_IMPORT_SHAPE_NOM), info = 0, help = txt(SITG_IMPORT_SHAPE_HLP), dat = ImportShape(), icon = icone("shp.tif"))
-    c4d.plugins.RegisterCommandPlugin(id=SITG_IMPORT_SHAPE_BATI_DALE_ID, str = "#$08" + txt(SITG_IMPORT_SHAPE_BATI_NOM), info = 0, help = txt(SITG_IMPORT_SHAPE_BATI_HLP), dat = ImportShapeBatiDALE(), icon = icone("shp.tif"))
-    c4d.plugins.RegisterCommandPlugin(id=SITG_IMPORT_SHAPE_BATI_DALE2_ID, str = "#$09" + txt(SITG_IMPORT_SHAPE_BATI2_NOM), info = 0, help = txt(SITG_IMPORT_SHAPE_BATI2_HLP), dat = ImportShapeBatiDALE2(), icon = icone("shp.tif"))
-    c4d.plugins.RegisterCommandPlugin(id=SITG_IMPORT_MNT_ID, str = "#$10" + txt(SITG_IMPORT_MNT_MNT), info = 0, help = txt(SITG_IMPORT_MNT_HLP), dat = ImportMNT(), icon = icone("asc.tif"))
-    c4d.plugins.RegisterCommandPlugin(id=SITG_IMPORT_3DS_ID, str = "#$11" + txt(SITG_IMPORT_3DS_NOM), info = 0, help = txt(SITG_IMPORT_3DS_HLP), dat = Import3DS(), icon = icone("3ds.tif"))
-    c4d.plugins.RegisterCommandPlugin(id=SITG_IMPORT_ARBRES_SSIG_ID, str = "#$12" + txt(SITG_IMPORT_ARBRES_SSIG_NOM), info = 0, help = txt(SITG_IMPORT_ARBRES_SSIG_HLP), dat = ImportArbresSSIG(), icon = icone("arbresSSIG.tif"))
+
+    c4d.plugins.RegisterCommandPlugin(id=SITG_IMPORT_BATI_SWISSTOPO_ID, str="#$08" + txt(SITG_IMPORT_BATI_SWISSTOPO_NOM), info=0,
+                                      help=txt(SITG_IMPORT_BATI_SWISSTOPO_HLP), dat=ImportSwissBuildings3Dshape(), icon=icone("shp.tif"))
+
+    c4d.plugins.RegisterCommandPlugin(id=SITG_IMPORT_SHAPE_BATI_DALE_ID, str = "#$09" + txt(SITG_IMPORT_SHAPE_BATI_NOM), info = 0, help = txt(SITG_IMPORT_SHAPE_BATI_HLP), dat = ImportShapeBatiDALE(), icon = icone("shp.tif"))
+    c4d.plugins.RegisterCommandPlugin(id=SITG_IMPORT_SHAPE_BATI_DALE2_ID, str = "#$10" + txt(SITG_IMPORT_SHAPE_BATI2_NOM), info = 0, help = txt(SITG_IMPORT_SHAPE_BATI2_HLP), dat = ImportShapeBatiDALE2(), icon = icone("shp.tif"))
+    c4d.plugins.RegisterCommandPlugin(id=SITG_IMPORT_MNT_ID, str = "#$11" + txt(SITG_IMPORT_MNT_MNT), info = 0, help = txt(SITG_IMPORT_MNT_HLP), dat = ImportMNT(), icon = icone("asc.tif"))
+    c4d.plugins.RegisterCommandPlugin(id=SITG_IMPORT_3DS_ID, str = "#$12" + txt(SITG_IMPORT_3DS_NOM), info = 0, help = txt(SITG_IMPORT_3DS_HLP), dat = Import3DS(), icon = icone("3ds.tif"))
+    c4d.plugins.RegisterCommandPlugin(id=SITG_IMPORT_ARBRES_SSIG_ID, str = "#$13" + txt(SITG_IMPORT_ARBRES_SSIG_NOM), info = 0, help = txt(SITG_IMPORT_ARBRES_SSIG_HLP), dat = ImportArbresSSIG(), icon = icone("arbresSSIG.tif"))
+    c4d.plugins.RegisterCommandPlugin(id=SITG_IMPORT_ARBRE_SHAPE_ID, str = "#$14" + txt(SITG_IMPORT_ARBRE_SHAPE_NOM), info = 0, help = txt(SITG_IMPORT_ARBRE_SHAPE_HLP), dat = ImportArbresShapePoint(), icon = icone("arbresSSIG.tif"))
 
     c4d.plugins.RegisterCommandPlugin(id=SITG_SEPARATOR_02, str = "#$15--", info = 0, help = "", dat = SITG(), icon = None)
 
