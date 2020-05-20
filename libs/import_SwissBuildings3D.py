@@ -213,13 +213,10 @@ def testShape(fn):
     return False
 
 
-def main(fn = None):
-    if not fn :
-        fn = c4d.storage.LoadDialog(type =c4d.FILESELECTTYPE_ANYTHING,flags = c4d.FILESELECT_DIRECTORY, title="Séléctionnez le fichier .shp :")
-    if not fn : return
-    #fn = '/Users/donzeo/SWITCHdrive/space_landscape_2020/03_donnees_sig/swissBuildings3D_NYON_mars_2020_lv95/SWISSBUILDINGS3D_2_0_CHLV95LN02_1261-43.shp'
-    path = '/Users/donzeo/SWITCHdrive/space_landscape_2020/03_donnees_sig/swissBuildings3D_NYON_mars_2020_lv95'
-    #path = '/Users/donzeo/Downloads/format_z_3D_shape_mp_jction_multipatch_20200407_142724'
+def main(path = None):
+    if not path :
+        path = c4d.storage.LoadDialog(type =c4d.FILESELECTTYPE_ANYTHING,flags = c4d.FILESELECT_DIRECTORY, title="Séléctionnez le fichier .shp :")
+    if not path : return
     for fn in glob(os.path.join(path,'*.shp')):
         if WIN:
             fn = fn.decode('utf-8').encode('cp1252')
