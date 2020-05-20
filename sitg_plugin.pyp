@@ -6,8 +6,8 @@ import webbrowser
 #from c4d import plugins, bitmaps, gui, documents, Vector
 from c4d.plugins import GeLoadString as txt
 
-__version__ = 2.01
-__date__    = "14/05/2020"
+__version__ = 2.02
+__date__    = "20/05/2020"
 
 
 sys.path.append(os.path.join(os.path.dirname(__file__),'libs'))
