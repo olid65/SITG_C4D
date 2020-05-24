@@ -5,7 +5,7 @@ import glob
 import os.path  
 
 sys.path.append(os.path.dirname(__file__))
-import shapefile
+from libs import shapefile
 import import3DS, importMNT, importRaster
 
 

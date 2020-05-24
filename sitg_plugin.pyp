@@ -6,26 +6,35 @@ import webbrowser
 #from c4d import plugins, bitmaps, gui, documents, Vector
 from c4d.plugins import GeLoadString as txt
 
-__version__ = 2.02
-__date__    = "20/05/2020"
+__version__ = 2.03
+__date__    = "23/05/2020"
 
 
-sys.path.append(os.path.join(os.path.dirname(__file__),'libs'))
-import importDossier
-import importJeuDonneesMaquette
-import extracteurWeb
-import activeTexture
-import importRaster
-import importMNT
-import import3DS
-import importArbresSSIG
-import groupeTerrain
-import georefObjet
-import importShapefile
-import importShapeBatiDALE
-import importShapeBatiDALE2
-import importArbresShapePoint
-import import_SwissBuildings3D
+WIN =  c4d.GeGetCurrentOS()==c4d.OPERATINGSYSTEM_WIN
+
+def winpath(path):
+    return path.decode('utf-8').encode('cp1252')
+
+#PC si il y a des caractères spéciaux dans le chemin ça plante (par Florian Dürig comme nom de session) solution A TESTER sur PC
+if WIN :
+    sys.path.append(winpath(os.path.dirname(__file__)))
+else:
+    sys.path.append(os.path.dirname(__file__))
+from libs import importDossier
+from libs import importJeuDonneesMaquette
+from libs import extracteurWeb
+from libs import activeTexture
+from libs import importRaster
+from libs import importMNT
+from libs import import3DS
+from libs import importArbresSSIG
+from libs import groupeTerrain
+from libs import georefObjet
+from libs import importShapefile
+from libs import importShapeBatiDALE
+from libs import importShapeBatiDALE2
+from libs import importArbresShapePoint
+from libs import import_SwissBuildings3D
 
 SITG_MODULE_ID                  = 1034152 
 SITG_IMPORT_DOSSIER_ID          = 1034151

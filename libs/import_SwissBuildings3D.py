@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import c4d
-import shapefile
+from libs import shapefile
 import os
 from glob import glob
 

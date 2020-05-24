@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import c4d
-import shapefile, os, random
+from libs import shapefile
+import os, random
 from math import pi
 
 # Script state in the menu or the command palette

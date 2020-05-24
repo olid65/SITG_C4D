@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-import c4d
-import shapefile, os
+import c4d, os
+from libs import shapefile
 
 #TODO : vérifier qu'il y a bien un champ numérique alt_base et alt_haut dans le shape
 

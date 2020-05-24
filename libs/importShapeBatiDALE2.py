@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-import c4d
-import shapefile, os
+import c4d, os
+from libs import shapefile
 
 """Pour importer un fichier shape de type polygone avec un champ HAUTEUR comme valeur d'extrusion"""
 
