@@ -35,7 +35,6 @@ from libs import importShapeBatiDALE
 from libs import importShapeBatiDALE2
 from libs import importArbresShapePoint
 from libs import import_SwissBuildings3D
-
 SITG_MODULE_ID                  = 1034152 
 SITG_IMPORT_DOSSIER_ID          = 1034151
 SITG_IMPORT_JEU_DONNEES_ID      = 1035167
