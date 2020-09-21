@@ -21,13 +21,13 @@ def insert_geotag(obj, origine):
 def polygonise(obj, nb_rows, nb_cols):
     id_poly = 0
     id_pt = 0
-    for r in xrange(nb_rows):
-        for c in xrange(nb_cols):
+    for r in range(nb_rows):
+        for c in range(nb_cols):
             if c < (nb_cols - 1) and r < (nb_rows - 1):
                 try:
                     obj.SetPolygon(id_poly, c4d.CPolygon(id_pt, id_pt + nb_cols, id_pt + 1 + nb_cols, id_pt + 1))
                 except:
-                    print id_poly, '->', (id_pt, id_pt + nb_cols, id_pt + 1 + nb_cols, id_pt + 1)
+                    print (id_poly, '->', (id_pt, id_pt + nb_cols, id_pt + 1 + nb_cols, id_pt + 1))
                 id_poly += 1
             id_pt += 1
 
@@ -84,7 +84,7 @@ def terrainFromASC(fn):
     # lecture des altitudes
     with open(fn, 'r') as file:
         # on saute l'entête
-        for i in xrange(nb): file.readline()
+        for i in range(nb): file.readline()
 
         nb_pts = ncols * nrows
         nb_poly = (ncols - 1) * (nrows - 1)
@@ -94,7 +94,7 @@ def terrainFromASC(fn):
 
         pos = c4d.Vector(0)
         i = 0
-        for r in xrange(nrows):
+        for r in range(nrows):
             for val in file.readline().split():
                 if virgule:
                     val = val.replace(",", ".")

@@ -48,7 +48,6 @@ class SHP4D(object):
 
         self.reader = shapefile.Reader(self.fn)
         # on vérifie si le type st pris encharge
-        # print self.reader.shapeType
         if not self.reader.shapeType in TYPES:
             c4d.gui.MessageDialog("Ce type de shape n'est pas pris en charge")
             return
@@ -63,9 +62,6 @@ class SHP4D(object):
         if self.reader:
             for shp in self.reader.iterShapes():
                 geom = dic.get(shp.shapeType, self.nomatch)(shp)
-                # print shp.points
-                # print shp.z
-                # print shp.parts
 
         creerGeoTag(self.geoms, self.doc, self.centre)
         self.doc.InsertObject(self.geoms)
@@ -150,7 +146,7 @@ class SHP4D(object):
         extr.InsertUnder(self.geoms)
 
     def nomatch(self, shp):
-        print 'type de shape non pris en charge'
+        print ('type de shape non pris en charge')
 
     def altitudeSelonChamp(self, nom_champ):
         id_champ = self.fields_name.index(nom_champ)

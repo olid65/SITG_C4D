@@ -74,7 +74,6 @@ def create_effector(name, select=None, typ=ID_PLAIN_EFFECTOR):
 
 def create_mograph_cloner(doc, points, hauteurs, diametres, objs_srces, centre=None, name=None):
     # tag = doc.GetActiveTag()
-    # print c4d.modules.mograph.GeGetMoDataWeights(tag)
     # return
 
     res = c4d.BaseObject(c4d.Onull)
@@ -274,7 +273,7 @@ def main(fn=None,
 
         if len(shp.points) > 1:
             # TODO traiter les multipoints !
-            print 'MULTIPOINT !'
+            print ('MULTIPOINT !')
         else:
             x, y = shp.points[0]
             if not z:

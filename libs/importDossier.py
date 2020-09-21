@@ -75,11 +75,11 @@ def main():
     #pour trouver l'id:
     #plugs = plugins.FilterPluginList(c4d.PLUGINTYPE_SCENELOADER, True)
     #for plug in plugs:
-        #print plug.GetName(), '-', plug.GetID()
+        #print(plug.GetName(), '-', plug.GetID())
         
     plug = c4d.plugins.FindPlugin(1001037, c4d.PLUGINTYPE_SCENELOADER)
     if plug is None:
-        print "pas de module d'import 3DS"
+        print ("pas de module d'import 3DS")
         return 
     op = {}
    
@@ -87,7 +87,7 @@ def main():
         
         import_data = op.get("imexporter",None)
         if not import_data:
-            print "pas de data pour l'import 3Ds"
+            print ("pas de data pour l'import 3Ds")
             return
         
         # Change 3DS import settings
@@ -112,10 +112,7 @@ def main():
     
     bat = None
     mnt = None
-    
-    """for ext in dic_fn.keys():
-        print ext
-    print '---------------'"""
+
     ######################################################################
     #import des 3ds
     ######################################################################
@@ -125,22 +122,22 @@ def main():
         #si le fichier commence par le PREFIXE_BAT c'est du bati3D'
         if re.search(r'^'+PREFIXE_BAT3D,name):
             import3DS.main(fn_3ds)
-            #print name, '-> batiment'
+
         #si le fichier commence par le PREFIXE_MNT c'est un MNT 3ds'
         elif re.search(r'^'+PREFIXE_MNT,name):
             import3DS.main(fn_3ds)
-            #print name, '-> MNT'
+
         #si le nom sans l'extension ne contient que des chiffres c'est un ouvrage d'art    
         elif name[:-4].isdigit():
             import3DS.main(fn_3ds)
-            #print name,"->ouvrage d'art"
+
         #si il y a un fichier shape avec le même nom c'est un batiment remarquable
         elif os.path.isfile(fn_3ds[:-4]+'.shp'):
-            print name,"->bâtiments remarquables pas encore pris en compte"
+            print (name,"->bâtiments remarquables pas encore pris en compte")
         
         #sinon on passe
         else:
-            print fn_3ds, "-> pas pris en compte"
+            print (fn_3ds, "-> pas pris en compte")
 
     ######################################################################
     #import des shapefile
@@ -150,10 +147,10 @@ def main():
         name = os.path.basename(fn_shp)
         #ICA
         if name == NOM_ICA:
-            print name, "-> ICA"
+            print (name, "-> ICA")
         #AUTRES
         else:
-            print name
+            print (name)
     ######################################################################
     #import des images géoréférencées
     ######################################################################

@@ -65,7 +65,7 @@ class Geopict ():
 
 
         except IOError:
-            print "Il n'y a pas de fichier de calage"
+            print ("Il n'y a pas de fichier de calage")
             return False
 
             
@@ -92,7 +92,7 @@ class Geopict ():
             self.centre = (self.min+self.max)/2.0
         except :
 
-            print "Probleme avec l'image"
+            print ("Probleme avec l'image")
 
             
 
@@ -209,12 +209,9 @@ def readTFW(fn):
                val_z = float(f.readline().split()[0])
                f.close()
 
-               print val_pix
-               print val_x
-               print val_z
 
         except IOError:
-            print "Il n'y a pas de fichier"
+            print ("Il n'y a pas de fichier")
             return False            
 
         else :
@@ -287,7 +284,7 @@ def main(fn = None, fn_calage = None, alerte = True):
     if relatif:
         path_dst = os.path.join(path_doc,'tex')
         if not os.path.isdir(path_dst):
-            os.makedirs(path_dst, mode=0777)
+            os.makedirs(path_dst)
         dst = os.path.join(path_dst,os.path.basename(fn))
         #si l'image n'existe pas deja on copie
         if not os.path.isfile(dst):    

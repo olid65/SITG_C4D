@@ -95,7 +95,7 @@ def main(fn = None):
     #mise en cm des option d'importation 3DS
     plug = c4d.plugins.FindPlugin(1001037, c4d.PLUGINTYPE_SCENELOADER)
     if plug is None:
-        print "pas de module d'import 3DS"
+        print ("pas de module d'import 3DS")
         return 
     op = {}
    
@@ -103,7 +103,7 @@ def main(fn = None):
         
         import_data = op.get("imexporter",None)
         if not import_data:
-            print "pas de data pour l'import 3Ds"
+            print ("pas de data pour l'import 3Ds")
             return
         
         # Change 3DS import settings

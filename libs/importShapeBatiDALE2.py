@@ -60,9 +60,7 @@ class SHP4D(object):
         if self.reader:
             for shp in self.reader.iterShapes():
                 geom = dic.get(shp.shapeType, self.nomatch)(shp)
-                # print shp.points
-                # print shp.z
-                # print shp.parts
+
         # self.altitudeSelonChamp(NOM_CHAMP_BASE)
         self.extrusionSelonChamps(NOM_CHAMP_HAUT)
         creerGeoTag(self.geoms, self.doc, self.centre)
@@ -100,7 +98,7 @@ class SHP4D(object):
         extr.InsertUnderLast(self.geoms)
 
     def nomatch(self, shp):
-        print 'type de shape non pris en charge'
+        print ('type de shape non pris en charge')
 
     def altitudeSelonChamp(self, nom_champ):
         id_champ = self.fields_name.index(nom_champ)

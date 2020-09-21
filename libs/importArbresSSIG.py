@@ -54,9 +54,6 @@ def create_effector(name,select = None, typ = ID_PLAIN_EFFECTOR):
 
 
 def create_mograph_cloner(doc,points, hauteurs, diametres, objs_srces):
-    # tag = doc.GetActiveTag()
-    # print c4d.modules.mograph.GeGetMoDataWeights(tag)
-    # return
 
     res = c4d.BaseObject(c4d.Onull)
     res.SetName(NULL_NAME)

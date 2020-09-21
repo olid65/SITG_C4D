@@ -1876,7 +1876,6 @@ def test(**kwargs):
         test = doctest.DocTestParser().get_doctest(string=fobj.read().decode("utf8").replace('\r\n','\n'), globs={}, name="README", filename="README.md", lineno=0)
     failure_count, test_count = runner.run(test)
 
-    # print results
     if verbosity:
         runner.summarize(True)
     else:

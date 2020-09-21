@@ -25,7 +25,7 @@ def main():
 
     origine = doc[CONTAINER_ORIGIN]
     if not origine :
-        print "document non géoréférencé"
+        print ("document non géoréférencé")
         return
     doc.StartUndo()
     for o in doc.GetActiveObjects(c4d.GETACTIVEOBJECTFLAGS_0):

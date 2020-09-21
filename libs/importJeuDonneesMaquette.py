@@ -304,7 +304,7 @@ class Geopict ():
 
 
         except IOError:
-            print "Il n'y a pas de fichier de calage"
+            print ("Il n'y a pas de fichier de calage")
             return False
 
             
@@ -331,7 +331,7 @@ class Geopict ():
             self.centre = (self.min+self.max)/2.0
         except :
 
-            print "Probleme avec l'image"
+            print ("Probleme avec l'image")
 
             
 
@@ -449,12 +449,8 @@ def readTFW(fn):
                val_z = float(f.readline().split()[0])
                f.close()
 
-               print val_pix
-               print val_x
-               print val_z
-
         except IOError:
-            print "Il n'y a pas de fichier"
+            print ("Il n'y a pas de fichier")
             return False            
 
         else :
@@ -480,7 +476,7 @@ def main(fn_arbres):
     #mise en cm des option d'importation 3DS
     plug = c4d.plugins.FindPlugin(1001037, c4d.PLUGINTYPE_SCENELOADER)
     if plug is None:
-        print "pas de module d'import 3DS"
+        print ("pas de module d'import 3DS")
         return 
     op = {}
    
@@ -488,7 +484,7 @@ def main(fn_arbres):
         
         import_data = op.get("imexporter",None)
         if not import_data:
-            print "pas de data pour l'import 3Ds"
+            print ("pas de data pour l'import 3Ds")
             return
         
         # Change 3DS import settings
@@ -595,7 +591,7 @@ def main(fn_arbres):
     mnt = doc.SearchObject('MNT')
     
     if not mnt :
-        print 'pas de centre'
+        print ('pas de centre')
         return
     
     centre = mnt.GetMg().off
@@ -607,7 +603,7 @@ def main(fn_arbres):
         
     
     if not origin or not centre:
-        print "pas d'origine"
+        print ("pas d'origine")
         return
          
     #on fait une translation avec tous les objets polygonaux importés
@@ -654,7 +650,6 @@ def main(fn_arbres):
     ###ORTHOPHOTO
     fn_ortho = os.path.join(path,NOM_FICHIER_ORTHO)
     fn_calage = os.path.join(path,NOM_FICHIER_CALAGE)
-    #print os.path.isfile(fn_ortho) 
     if os.path.isfile(fn_ortho) and os.path.isfile(fn_calage):
         #MATERIAL
         gp = Geopict(fn_ortho,fn_calage,c4d.documents.GetActiveDocument())
