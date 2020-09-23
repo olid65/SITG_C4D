@@ -18,14 +18,9 @@ PREFIXE_MNT = 'MNT'
 
 NOM_ICA = 'SIPV_ICA_ARBRE_ISOLE.shp'
 
-#pour savoir si on est sur windows pour le codage des chemins de fichiers
-WIN =  c4d.GeGetCurrentOS()==c4d.OPERATINGSYSTEM_WIN
 
 
 
-def winpath(path):
-    return path.decode('utf-8').encode('cp1252')
-  
 def dicodirectory(path,dico = None):  
     """renvoie un dictionnaire avec en étiquette l'extension
        et en valeur la liste de tous les fichiers"""
@@ -104,9 +99,7 @@ def main():
     us = doc[c4d.DOCUMENT_DOCUNIT]
     us.SetUnitScale(1,c4d.DOCUMENT_UNIT_M)
     doc[c4d.DOCUMENT_DOCUNIT]= us
-    
-    if WIN : path = winpath(path)
-    
+
     dic_fn = dicodirectory(path)
     doc.StartUndo()
     

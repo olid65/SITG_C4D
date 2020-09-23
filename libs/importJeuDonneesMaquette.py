@@ -4,7 +4,7 @@
 import c4d, os, random, math
 from glob import glob
 
-WIN =  c4d.GeGetCurrentOS()==c4d.OPERATINGSYSTEM_WIN
+
 
 CONTAINER_ORIGIN =1026473
 
@@ -320,7 +320,6 @@ class Geopict ():
 
         try:
             fn = self.fn
-            if WIN : fn = self.fn.decode('cp1252').encode('utf-8')
             bmp.InitWith(fn)
             self.size_px = bmp.GetSize()
             self.size = c4d.Vector(self.size_px[0]*self.val_pix,0,
@@ -342,8 +341,6 @@ class Geopict ():
         shd = c4d.BaseList2D(c4d.Xbitmap)
         #ATENTION au backslash suivi de t ou de p cela est consid\r\ comme tab ou 
         fn = self.fn
-        if WIN :
-            fn = self.fn.decode('cp1252').encode('utf-8')
         if is_in_doc_path(fn,self.doc):
             shd[c4d.BITMAPSHADER_FILENAME] = os.path.basename(fn)
         else:
@@ -502,9 +499,6 @@ def main(fn_arbres):
     
     #TODO : vérifier que c'est bien un dossier maquette
 
-    # pour windows pour essayer de régler les histoires d'accents'
-    if WIN:
-        path = path.decode('utf-8').encode('cp1252')
     
     
     last = None
@@ -653,7 +647,7 @@ def main(fn_arbres):
     if os.path.isfile(fn_ortho) and os.path.isfile(fn_calage):
         #MATERIAL
         gp = Geopict(fn_ortho,fn_calage,c4d.documents.GetActiveDocument())
-        gp.creerTexture(relatif = False, win = WIN)
+        gp.creerTexture(relatif = False)
     
         gp.creerTagTex(model_cut,displayTag = False)
     

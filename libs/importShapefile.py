@@ -13,8 +13,6 @@ TYPES = [shapefile.POINT,
          shapefile.POINTZ,
          shapefile.MULTIPOINT]
 
-# pour savoir si on est sur windows pour le codage des chemins de fichiers
-WIN = c4d.GeGetCurrentOS() == c4d.OPERATINGSYSTEM_WIN
 
 
 def creerGeoTag(obj, doc, centre):
@@ -179,8 +177,6 @@ def main(fn=None):
     if not testShape(fn):
         c4d.gui.MessageDialog("Ce n'est pas un fichier shape (.shp)")
         return
-    if WIN:
-        fn = fn.decode('utf-8').encode('cp1252')
 
     shp = SHP4D(fn, doc=c4d.documents.GetActiveDocument())
     # doc.InsertObject(shp.geoms)

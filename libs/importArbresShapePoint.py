@@ -11,8 +11,6 @@ from math import pi
 # def state():
 #    return True
 
-# pour savoir si on est sur windows pour le codage des chemins de fichiers
-WIN = c4d.GeGetCurrentOS() == c4d.OPERATINGSYSTEM_WIN
 
 CONTAINER_ORIGIN = 1026473
 
@@ -208,8 +206,6 @@ def main(fn=None,
     if not testShape(fn):
         c4d.gui.MessageDialog("Ce n'est pas un fichier shape (.shp)")
         return
-    if WIN:
-        fn = fn.decode('utf-8').encode('cp1252')
 
     doc = c4d.documents.GetActiveDocument()
 

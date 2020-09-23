@@ -15,9 +15,6 @@ TYPES = [shapefile.POINT,
          shapefile.MULTIPOINT,
          shapefile.MULTIPATCH]
 
-#pour savoir si on est sur windows pour le codage des chemins de fichiers
-WIN =  c4d.GeGetCurrentOS()==c4d.OPERATINGSYSTEM_WIN
-
 def creerGeoTag(obj,doc,centre):
     geoTag = c4d.BaseTag(1026472) #GeoTag
     origine = doc[CONTAINER_ORIGIN]
@@ -214,9 +211,6 @@ def main(path = None):
         path = c4d.storage.LoadDialog(type =c4d.FILESELECTTYPE_ANYTHING,flags = c4d.FILESELECT_DIRECTORY, title="Séléctionnez le fichier .shp :")
     if not path : return
     for fn in glob(os.path.join(path,'*.shp')):
-        if WIN:
-            fn = fn.decode('utf-8').encode('cp1252')
-
         shp = SHP4D(fn, doc = c4d.documents.GetActiveDocument())
     #doc.InsertObject(shp.geoms)
     c4d.EventAdd()

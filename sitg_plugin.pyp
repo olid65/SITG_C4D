@@ -6,20 +6,12 @@ import webbrowser
 #from c4d import plugins, bitmaps, gui, documents, Vector
 from c4d.plugins import GeLoadString as txt
 
-__version__ = 2.03
-__date__    = "23/05/2020"
+__version__ = 3.01
+__date__    = "23/09/2020"
 
 
-WIN =  c4d.GeGetCurrentOS()==c4d.OPERATINGSYSTEM_WIN
 
-def winpath(path):
-    return path.decode('utf-8').encode('cp1252')
-
-#PC si il y a des caractères spéciaux dans le chemin ça plante (par Florian Dürig comme nom de session) solution A TESTER sur PC
-if WIN :
-    sys.path.append(winpath(os.path.dirname(__file__)))
-else:
-    sys.path.append(os.path.dirname(__file__))
+sys.path.append(os.path.dirname(__file__))
 from libs import importDossier
 from libs import importJeuDonneesMaquette
 from libs import extracteurWeb

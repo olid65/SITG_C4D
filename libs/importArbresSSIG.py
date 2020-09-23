@@ -4,7 +4,6 @@ import c4d, os, random, math
 from glob import glob
 from math import pi
 
-WIN =  c4d.GeGetCurrentOS()==c4d.OPERATINGSYSTEM_WIN
 
 CONTAINER_ORIGIN =1026473
 

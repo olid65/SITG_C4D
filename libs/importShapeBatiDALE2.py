@@ -10,9 +10,6 @@ CONTAINER_ORIGIN = 1026473
 # types pris en charge
 TYPES = [shapefile.POLYGON]
 
-# pour savoir si on est sur windows pour le codage des chemins de fichiers
-WIN = c4d.GeGetCurrentOS() == c4d.OPERATINGSYSTEM_WIN
-
 # NOM_CHAMP_BASE = None
 NOM_CHAMP_HAUT = 'HAUTEUR'
 
@@ -152,8 +149,6 @@ def main():
     if not testShape(fn):
         c4d.gui.MessageDialog("Ce n'est pas un fichier shape (.shp)")
         return
-    if WIN:
-        fn = fn.decode('utf-8').encode('cp1252')
 
     shp = SHP4D(fn, c4d.documents.GetActiveDocument())
 

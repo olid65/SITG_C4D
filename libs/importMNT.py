@@ -8,9 +8,6 @@ import os.path
 
 CONTAINER_ORIGIN = 1026473
 
-# pour savoir si on est sur windows pour le codage des chemins de fichiers
-WIN = c4d.GeGetCurrentOS() == c4d.OPERATINGSYSTEM_WIN
-
 
 def insert_geotag(obj, origine):
     geotag = c4d.BaseTag(1026472)
@@ -131,9 +128,6 @@ def main(fn=None):
         c4d.gui.MessageDialog("Ce n'est pas un fichier de terrain (.txt ou .asc)")
         return
     # fn = '/Volumes/HD_OD/Eoliennes_Mollendruz/SIG/ARC_leman_def/test100MNT.asc'
-
-    # pour windows on encode en cp1252
-    if WIN: fn = fn.decode('utf-8').encode('cp1252')
 
     terrain = terrainFromASC(fn)
     doc.InsertObject(terrain)

@@ -5,8 +5,7 @@ import c4d
 import os,glob,math,shutil
 
 CONTAINER_ORIGIN =1026473  
-#pour savoir si on est sur windows pour le codage des chemins de fichiers
-WIN =  c4d.GeGetCurrentOS()==c4d.OPERATINGSYSTEM_WIN
+
 """ TODO :
     remplacer le geotag par un autre système ??? ou améliorer le geotag
     """
@@ -81,7 +80,6 @@ class Geopict ():
 
         try:
             fn = self.fn
-            if WIN : fn = self.fn.decode('cp1252').encode('utf-8')
             bmp.InitWith(fn)
             self.size_px = bmp.GetSize()
             self.size = c4d.Vector(self.size_px[0]*self.val_pix,0,
@@ -103,8 +101,6 @@ class Geopict ():
         shd = c4d.BaseList2D(c4d.Xbitmap)
         #ATENTION au backslash suivi de t ou de p cela est consid\r\ comme tab ou 
         fn = self.fn
-        if WIN :
-            fn = self.fn.decode('cp1252').encode('utf-8')
         if is_in_doc_path(fn,self.doc):
             shd[c4d.BITMAPSHADER_FILENAME] = os.path.basename(fn)
         else:
@@ -239,9 +235,6 @@ def main(fn = None, fn_calage = None, alerte = True):
         c4d.gui.MessageDialog("Ce n'est pas un fichier image")
         return
 
-    if WIN:
-        fn = fn.decode('utf-8').encode('cp1252')
-    
     fn_ss_ext,ext = os.path.splitext(fn)
     
     #extension du fichier de calage
@@ -294,7 +287,7 @@ def main(fn = None, fn_calage = None, alerte = True):
  
     doc.StartUndo()
     gp = Geopict(fn,fn_calage,c4d.documents.GetActiveDocument())
-    gp.creerTexture(relatif, win = WIN)
+    gp.creerTexture(relatif)
     
     #si on a un objet sélectionné on plaque dessus
     op = doc.GetActiveObject()
