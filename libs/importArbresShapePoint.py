@@ -15,7 +15,8 @@ from math import pi
 CONTAINER_ORIGIN = 1026473
 
 NOM_CHAMP_HAUT = 'HAUTEUR'
-NOM_CHAMP_DIAMETRE = 'DIAMETRE'
+#NOM_CHAMP_DIAMETRE = 'DIAMETRE'
+NOM_CHAMP_RAYON = 'RAYON_COURONNE'
 NOM_CHAMP_Z = 'Z'
 
 HAUTEUR_DEFAUT = 15.
@@ -227,22 +228,24 @@ def main(fn=None,
     fields_name = [f[0].lower() for f in reader.fields][1:]
 
     nom_champ_haut = NOM_CHAMP_HAUT.lower()
-    nom_champ_diametre = NOM_CHAMP_DIAMETRE.lower()
+    #nom_champ_diametre = NOM_CHAMP_DIAMETRE.lower()
+    nom_champ_rayon = NOM_CHAMP_RAYON.lower()
     nom_champ_z = NOM_CHAMP_Z.lower()
 
     id_haut = index(fields_name, nom_champ_haut)
-    id_diam = index(fields_name, nom_champ_diametre)
+    #id_diam = index(fields_name, nom_champ_diametre)
+    id_rayon = index(fields_name, nom_champ_rayon)
     id_z = index(fields_name, nom_champ_z)
 
     haut = diam = None
     z = None
 
     # selon le cas de figure on applique une fonction differente
-    if id_haut == -1 and id_diam == -1:
+    if id_haut == -1 and id_rayon == -1:
         fonction = niHaut_niDiam
     elif id_haut == -1:
         fonction = pasHaut
-    elif id_diam == -1:
+    elif id_rayon == -1:
         fonction = pasDiam
     else:
         fonction = hautDiam
@@ -256,8 +259,8 @@ def main(fn=None,
     for shp, rec in zip(reader.iterShapes(), reader.iterRecords()):
         if id_haut >= 0:
             haut = rec[id_haut]
-        if id_diam >= 0:
-            diam = rec[id_diam]
+        if id_rayon >= 0:
+            diam = rec[id_rayon]*2
         haut, diam = fonction(haut, diam)
         hauteurs.append(haut)
         diametres.append(diam)

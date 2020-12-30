@@ -9,11 +9,11 @@ CONTAINER_ORIGIN =1026473
 ID_BATI_PLQ = 1035057
 
 #types pris en charge
-TYPES = [shapefile.POLYGON]
+TYPES = [shapefile.POLYGON,shapefile.POLYGONZ]
 
 
-NOM_CHAMP_BASE = 'alt_base'
-NOM_CHAMP_HAUT = 'alt_haut'
+NOM_CHAMP_BASE = 'ALTI_BASE'
+NOM_CHAMP_HAUT = 'HAUTEUR'
 
 def creerGeoTag(obj,doc,centre):
     geoTag = c4d.BaseTag(1026472) #GeoTag
@@ -36,6 +36,7 @@ class SHP4D(object):
         dic = {shapefile.POINT:self.point,
            shapefile.POLYLINE:self.polyline,
            shapefile.POLYGON:self.polygon,
+           shapefile.POLYGONZ: self.polygon,
            }
         self.reader = shapefile.Reader(self.fn)
         #on vérifie si le type st pris encharge
@@ -71,7 +72,7 @@ class SHP4D(object):
         pass
     
     def polygon(self,shp):
-        pts = [c4d.Vector(x,0,y)-self.centre for x,y in shp.points]
+        pts = [c4d.Vector(x,z,y)-self.centre for (x,y),z in zip(shp.points,shp.z)]
         nb_pts = len(pts)
         #OBJET EXTRUSION
         extr = c4d.BaseObject(c4d.Oextrude)
@@ -109,7 +110,7 @@ class SHP4D(object):
         idHaut = self.fields_name.index(champHaut)
         idBas = self.fields_name.index(champBas)
         for rec,extr in zip(self.reader.iterRecords(),self.geoms.GetChildren()):
-            haut = float(rec[idHaut]) - float(rec[idBas])
+            haut = float(rec[idHaut])
             extr[c4d.EXTRUDEOBJECT_MOVE] = c4d.Vector(0,haut,0)
         
 def testShape(fn):

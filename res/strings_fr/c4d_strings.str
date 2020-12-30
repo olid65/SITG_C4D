@@ -20,13 +20,12 @@ STRINGTABLE
 
 	SITG_IMPORT_SHAPE_NOM	"Importer un fichier ESRI/shape";
 	SITG_IMPORT_SHAPE_HLP	"importe un fichier ESRI/shape";
-
 	
 
 	SITG_IMPORT_MNT_MNT     "Importer un MNT/MNS(ASCII-GRID)";
 	SITG_IMPORT_MNT_HLP     "importe un MNT/MNS(ASCII-GRID)";
 
-	SITG_IMPORT_3DS_NOM		"Importer 3DS (b\u00e2timents ou terrain)";
+	SITG_IMPORT_3DS_NOM		"Importer 3DS (b\u00e2timents, terrain ou ouvrage d'art)";
 	SITG_IMPORT_3DS_HLP		"importe un fichier 3DS provenant du SITG (b\u00e2timents, terrain ou ouvrage d'art)";
 
 	SITG_IMPORT_ARBRES_SSIG_NOM		"Importer les arbres 2018";
@@ -38,15 +37,27 @@ STRINGTABLE
 	SITG_GEOREF_OBJ_NOM        "G\u00E9or\u00E9f\u00E9rencer les objets";
 	SITG_GEOREF_OBJ_HLP        "g\u00E9or\u00E9f\u00E9rence les objets s\u00E9lectionn\u00E9s en leurs appliquant un Geotag, pour pouvoir le copier/coller dans un autre document par exemple";
 
-	SITG_IMPORT_SHAPE_BATI_NOM "Importer un shape b\u00E2timents (alt_base,alt_haut)";
-	SITG_IMPORT_SHAPE_BATI_HLP "Importe un fichier shape de type polygone avec le champ 'alt_base' comme altitude et la diff\u00E9rence entre les champs 'alt_haut' et 'alt_base'pour la hauteur d'extrusion";
+	SITG_IMPORT_SHAPE_BATI_NOM "Importer un shape b\u00E2timents (ALTI_BASE,HAUTEUR)";
+	SITG_IMPORT_SHAPE_BATI_HLP "Importe un fichier shape de type polygone avec le champ 'ALTI_BASE' comme altitude et 'HAUTEUR'pour la hauteur d'extrusion";
 
 	SITG_IMPORT_SHAPE_BATI2_NOM "Importer un shape b\u00E2timents (HAUTEUR)";
 	SITG_IMPORT_SHAPE_BATI2_HLP "Importe un fichier shape de type polygone avec le champ 'HAUTEUR' comme hauteur d'extrusion, la base restant au niveau 0 (utiliser ensuite Groupe sur terrain)";
 
-	SITG_IMPORT_ARBRE_SHAPE_NOM  "Importer des arbres shape de type point";
-    SITG_IMPORT_ARBRE_SHAPE_HELP "Importe un fichier shape de type point ou pointZ selon les dimensions contenues dans des champs 'hauteur','diametre', sinon les dimensions sont fix\u00E9es par d\u00E9faut. En absence de z l'altitude peut provenir d'un champ 'z' ";
+	SITG_IMPORT_ARBRE_SHAPE_PT_NOM  "Arbres shape de type point (HAUTEUR, RAYON_COURONNE)";
+    SITG_IMPORT_ARBRE_SHAPE_PT_HLP "Importe un fichier shape de type point ou pointZ selon les dimensions contenues dans des champs 'HAUTEUR','RAYON_COURONNE', sinon les dimensions sont fix\u00E9es par d\u00E9faut. En absence de z l'altitude peut provenir d'un champ 'z' ";
+
+	SITG_IMPORT_ARBRE_SHAPE_LINE_NOM  "Arbres shape de type polyligne sur un mnt (alignements)";
+    SITG_IMPORT_ARBRE_SHAPE_LINE_HLP "Importe un fichier shape de type polyligne sur le mnt s\u00E9lectionn\u00E9";
+
+	SITG_IMPORT_ARBRE_SHAPE_POLY_NOM  "Arbres shape de type polygone sur un mnt (remplissage de zones)";
+    SITG_IMPORT_ARBRE_SHAPE_POLY_HLP "Importe un fichier shape de type polygone sur le mnt s\u00E9lectionn\u00E9";
 
     SITG_IMPORT_BATI_SWISSTOPO_NOM  "Importer un dossier SwissBuildings3D shape (swisstopo)";
-    SITG_IMPORT_BATI_SWISSTOPO_NOM "Importe tous les fichiers shape multipatch du dossier choisi";
+    SITG_IMPORT_BATI_SWISSTOPO_HLP "Importe tous les fichiers shape multipatch du dossier choisi";
+
+    SITG_TREES_FROM_POLYGON_NOM  "Arbres depuis surfaces";
+    SITG_TREES_FROM_POLYGON_HLP  "S\u00E9lectionner le MNT (terrain sous forme d'objet polygonal) ainsi que la ou les splines ou encore un objet neutre contenant les splines";
+
+    SITG_TREES_FROM_LINE_NOM     "Arbres depuis lignes";
+    SITG_TREES_FROM_LINE_HLP     "S\u00E9lectionner le MNT (terrain sous forme d'objet polygonal) ainsi que la spline";
 }

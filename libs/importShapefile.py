@@ -8,10 +8,13 @@ CONTAINER_ORIGIN = 1026473
 
 # types pris en charge
 TYPES = [shapefile.POINT,
-         shapefile.POLYLINE,
-         shapefile.POLYGON,
          shapefile.POINTZ,
-         shapefile.MULTIPOINT]
+         shapefile.POLYLINE,
+         shapefile.POLYLINEZ,
+         shapefile.POLYGON,
+         shapefile.POLYGONZ,
+         shapefile.MULTIPOINT,
+         shapefile.MULTIPOINTZ]
 
 
 
@@ -38,17 +41,24 @@ class SHP4D(object):
         self.nom = os.path.basename(self.fn)
 
         dic = {shapefile.POINT: self.point,
+               shapefile.POINTZ: self.point,
                shapefile.POLYLINE: self.polyline,
+               shapefile.POLYLINEZ: self.polyline,
                shapefile.POLYGON: self.polygon,
-               shapefile.POINTZ: self.pointz,
+               shapefile.POLYGONZ: self.polygon,
                shapefile.MULTIPOINT: self.multipoint,
+               shapefile.MULTIPOINTZ: self.multipoint,
                }
 
         self.reader = shapefile.Reader(self.fn)
-        # on vérifie si le type st pris encharge
+        # on vérifie si le type est pris encharge
         if not self.reader.shapeType in TYPES:
             c4d.gui.MessageDialog("Ce type de shape n'est pas pris en charge")
             return
+        # on regarde si le type contient la 3D (z)
+        self.hasZ = False
+        if self.reader.shapeType in [shapefile.POINTZ,shapefile.POLYLINEZ,shapefile.POLYGONZ,shapefile.MULTIPOINTZ]:
+            self.hasZ = True
 
         self.xmin, self.ymin, self.xmax, self.ymax = self.reader.bbox
         self.centre = c4d.Vector((self.xmin + self.xmax) / 2, 0, (self.ymax + self.ymin) / 2)
@@ -65,25 +75,18 @@ class SHP4D(object):
         self.doc.InsertObject(self.geoms)
         self.doc.SetActiveObject(self.geoms)
 
+    def getPts(self,shp):
+        if self.hasZ:
+            return [c4d.Vector(x, z, y) - self.centre for (x, y), z in zip(shp.points, shp.z)]
+        else:
+            return [c4d.Vector(x, 0, y) - self.centre for x, y in shp.points]
+
     def point(self, shp):
         if not self.srce:
             self.srce = c4d.BaseObject(c4d.Onull)
             self.srce.SetName(self.nom + '_source')
             self.doc.InsertObject(self.srce)
-        pts = [c4d.Vector(x, 0, y) - self.centre for x, y in shp.points]
-        for p in pts:
-            inst = c4d.BaseObject(c4d.Oinstance)
-            inst.SetAbsPos(p)
-            inst.InsertUnderLast(self.geoms)
-            inst[c4d.INSTANCEOBJECT_LINK] = self.srce
-
-    # A TESTER
-    def pointz(self, shp):
-        if not self.srce:
-            self.srce = c4d.BaseObject(c4d.Onull)
-            self.srce.SetName(self.nom + '_source')
-            self.doc.InsertObject(self.srce)
-        pts = [c4d.Vector(x, z, y) - self.centre for (x, y), z in zip(shp.points, shp.z)]
+        pts = self.getPts(shp)
         for p in pts:
             inst = c4d.BaseObject(c4d.Oinstance)
             inst.SetAbsPos(p)
@@ -96,7 +99,7 @@ class SHP4D(object):
             self.srce = c4d.BaseObject(c4d.Onull)
             self.srce.SetName(self.nom + '_source')
             self.doc.InsertObject(self.srce)
-        pts = [c4d.Vector(x, 0, y) - self.centre for x, y in shp.points]
+        pts = self.getPts(shp)
         for p in pts:
             inst = c4d.BaseObject(c4d.Oinstance)
             inst.SetAbsPos(p)
@@ -104,7 +107,7 @@ class SHP4D(object):
             inst[c4d.INSTANCEOBJECT_LINK] = self.srce
 
     def polyline(self, shp):
-        pts = [c4d.Vector(x, 0, y) - self.centre for x, y in shp.points]
+        pts = self.getPts(shp)
         nb_pts = len(pts)
         sp = c4d.SplineObject(nb_pts, c4d.SPLINETYPE_LINEAR)
         sp.SetAllPoints(pts)
@@ -121,7 +124,7 @@ class SHP4D(object):
         sp.InsertUnderLast(self.geoms)
 
     def polygon(self, shp):
-        pts = [c4d.Vector(x, 0, y) - self.centre for x, y in shp.points]
+        pts = self.getPts(shp)
         nb_pts = len(pts)
         # OBJET EXTRUSION
         extr = c4d.BaseObject(c4d.Oextrude)
