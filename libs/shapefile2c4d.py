@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import c4d
 from libs import shapefile
 

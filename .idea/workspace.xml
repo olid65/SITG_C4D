@@ -20,42 +20,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b2dfb075-3f4c-4b83-b863-03531f974327" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/libs/importArbresShapeLine.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/libs/importArbresShapePoly.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/libs/od_c4d_utils.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/libs/shapefile2c4d.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/libs/treesFromLines.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/libs/treesFromPolygons.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GeoTag/GeoTag.pypv" beforeDir="false" afterPath="$PROJECT_DIR$/GeoTag/GeoTag.pypv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GeoTag/res/c4d_symbols.h" beforeDir="false" afterPath="$PROJECT_DIR$/GeoTag/res/c4d_symbols.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GeoTag/res/description/geotag.h" beforeDir="false" afterPath="$PROJECT_DIR$/GeoTag/res/description/geotag.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GeoTag/res/description/geotag.res" beforeDir="false" afterPath="$PROJECT_DIR$/GeoTag/res/description/geotag.res" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GeoTag/res/geotag.tif" beforeDir="false" afterPath="$PROJECT_DIR$/GeoTag/res/geotag.tif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GeoTag/res/strings_us/description/geotag.str" beforeDir="false" afterPath="$PROJECT_DIR$/GeoTag/res/strings_us/description/geotag.str" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/importArbresShapePoint.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/importArbresShapePoint.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/importShapeBatiDALE.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/importShapeBatiDALE.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/importShapefile.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/importShapefile.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/3ds.tif" beforeDir="false" afterPath="$PROJECT_DIR$/res/3ds.tif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/activeTex.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/activeTex.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/activeTex2.png" beforeDir="false" afterPath="$PROJECT_DIR$/res/activeTex2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/arbresSSIG.tif" beforeDir="false" afterPath="$PROJECT_DIR$/res/arbresSSIG.tif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/asc.tif" beforeDir="false" afterPath="$PROJECT_DIR$/res/asc.tif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/base_logo_lettres.psd" beforeDir="false" afterPath="$PROJECT_DIR$/res/base_logo_lettres.psd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/c4d_symbols.h" beforeDir="false" afterPath="$PROJECT_DIR$/res/c4d_symbols.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/extracteurSITG.tif" beforeDir="false" afterPath="$PROJECT_DIR$/res/extracteurSITG.tif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/georef.tif" beforeDir="false" afterPath="$PROJECT_DIR$/res/georef.tif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/grpeTerrain.tif" beforeDir="false" afterPath="$PROJECT_DIR$/res/grpeTerrain.tif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/http.tif" beforeDir="false" afterPath="$PROJECT_DIR$/res/http.tif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/mip.tif" beforeDir="false" afterPath="$PROJECT_DIR$/res/mip.tif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/mip2.tif" beforeDir="false" afterPath="$PROJECT_DIR$/res/mip2.tif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/shape.tif" beforeDir="false" afterPath="$PROJECT_DIR$/res/shape.tif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/shp.tif" beforeDir="false" afterPath="$PROJECT_DIR$/res/shp.tif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/sitg.tif" beforeDir="false" afterPath="$PROJECT_DIR$/res/sitg.tif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/sitg2.tif" beforeDir="false" afterPath="$PROJECT_DIR$/res/sitg2.tif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/strings_fr/c4d_strings.str" beforeDir="false" afterPath="$PROJECT_DIR$/res/strings_fr/c4d_strings.str" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/wld.tif" beforeDir="false" afterPath="$PROJECT_DIR$/res/wld.tif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sitg_plugin.pyp" beforeDir="false" afterPath="$PROJECT_DIR$/sitg_plugin.pyp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/importArbresSSIG.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/importArbresSSIG.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/importJeuDonneesMaquette.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/importJeuDonneesMaquette.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/od_c4d_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/od_c4d_utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/shapefile2c4d.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/shapefile2c4d.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/treesFromLines.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/treesFromLines.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/treesFromPolygons.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/treesFromPolygons.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,12 +59,6 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="147" />
-    <option name="y" value="23" />
-    <option name="width" value="2138" />
-    <option name="height" value="1369" />
   </component>
   <component name="ProjectId" id="1cOLtZETwODpI4dhf8CT7XVX5qc" />
   <component name="ProjectViewState">

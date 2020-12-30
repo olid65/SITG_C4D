@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import c4d, math, os
 
 TXT_NO_SPLINE = "Vous devez sélectionner au moins une spline ou un objet neutre contenant des splines !"
