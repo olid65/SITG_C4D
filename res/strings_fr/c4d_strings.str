@@ -60,4 +60,7 @@ STRINGTABLE
 
     SITG_TREES_FROM_LINE_NOM     "Arbres depuis lignes";
     SITG_TREES_FROM_LINE_HLP     "S\u00E9lectionner le MNT (terrain sous forme d'objet polygonal) ainsi que la spline";
+
+    SITG_EMPRISE_GEO_NOM             "Emprise g\u00E9ographique";
+    SITG_EMPRISE_GEO_HLP   "Dialogue pour r\u00E9cup\u00E9rer les coordonn\u00E9es d'un objet ou d'une vue pour les copier ou les exporter";
 }

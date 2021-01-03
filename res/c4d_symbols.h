@@ -60,6 +60,9 @@ enum
     SITG_TREES_FROM_LINE_NOM         = 2405,
     SITG_TREES_FROM_LINE_HLP         = 2406,
 
+    SITG_EMPRISE_GEO_NOM             =2410,
+    SITG_EMPRISE_GEO_HLP             =2411,
+
 
 	
 	_DUMMY_ELEMENT_

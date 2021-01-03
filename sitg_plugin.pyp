@@ -31,6 +31,7 @@ from libs import importArbresShapePoly
 from libs import import_SwissBuildings3D
 from libs import treesFromPolygons
 from libs import treesFromLines
+from libs import empriseGeo
 
 SITG_MODULE_ID                  = 1034152 
 SITG_IMPORT_DOSSIER_ID          = 1034151
@@ -53,6 +54,8 @@ SITG_IMPORT_BATI_SWISSTOPO_ID   = 1055062
 
 SITG_TREES_FROM_POLYGON_ID      = 1056404
 SITG_TREES_FROM_LINE_ID         = 1056405
+
+SITG_EMPRISE_GEO_ID             = 1056428
 
 
 SITG_SEPARATOR_01       = 1034154     
@@ -116,6 +119,9 @@ SITG_TREES_FROM_POLYGON_HLP      = 2402
 
 SITG_TREES_FROM_LINE_NOM         = 2405
 SITG_TREES_FROM_LINE_HLP         = 2406
+
+SITG_EMPRISE_GEO_NOM             =2410
+SITG_EMPRISE_GEO_HLP             =2411
 
 
 
@@ -223,6 +229,15 @@ class GeorefObj(c4d.plugins.CommandData):
         georefObjet.main()
         return True
 
+class empriseGeographique(c4d.plugins.CommandData):
+    dialog = None
+    def Execute(self, doc) :
+        if self.dialog is None:
+            self.dialog = empriseGeo.DlgBbox()
+
+            # Opens the dialog
+        return self.dialog.Open(dlgtype=c4d.DLG_TYPE_ASYNC, pluginid=SITG_EMPRISE_GEO_ID, defaultw=250, defaulth=150)
+
 class SITG(c4d.plugins.CommandData) :
     def Execute(self, doc) :
         webbrowser.open('https://www.hesge.ch/hepia/groupe/modelisation-informatique-paysage')
@@ -270,6 +285,7 @@ if __name__=='__main__':
     c4d.plugins.RegisterCommandPlugin(id=SITG_GROUPE_SUR_TERRAIN_ID, str = "#$53"+ txt(SITG_GRPE_SUR_TERRAIN_NOM), info = 0, help = txt(SITG_GRPE_SUR_TERRAIN_HLP), dat = GroupeSurTerrain(), icon = icone("grpeTerrain.tif"))
     c4d.plugins.RegisterCommandPlugin(id=SITG_GEOREFERENCER_UN_OBJET_ID, str = "#$54"+ txt(SITG_GEOREF_OBJ_NOM), info = 0, help = txt(SITG_GEOREF_OBJ_HLP), dat = GeorefObj(), icon = icone("georef.tif"))
     c4d.plugins.RegisterCommandPlugin(id=SITG_ACTIVETEXTURE_ID, str = "#$55" + txt(SITG_ACTIVETEXTURE_NOM), info = 0, help = txt(SITG_ACTIVETEXTURE_HLP), dat = ActiveTexture(), icon = icone("activeTex2.png"))
+    c4d.plugins.RegisterCommandPlugin(id=SITG_EMPRISE_GEO_ID, str="#$56" + txt(SITG_EMPRISE_GEO_NOM), info=0, help=txt(SITG_EMPRISE_GEO_HLP), dat=empriseGeographique(), icon=icone("georef.tif"))
 
     c4d.plugins.RegisterCommandPlugin(id=SITG_SEPARATOR_04, str = "#$60--", info = 0, help = "", dat = SITG(), icon = None)
 
