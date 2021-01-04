@@ -15,7 +15,7 @@ from math import pi
 CONTAINER_ORIGIN = 1026473
 
 NOM_CHAMP_HAUT = 'HAUTEUR'
-#NOM_CHAMP_DIAMETRE = 'DIAMETRE'
+# NOM_CHAMP_DIAMETRE = 'DIAMETRE'
 NOM_CHAMP_RAYON = 'RAYON_COURONNE'
 NOM_CHAMP_Z = 'Z'
 
@@ -228,12 +228,12 @@ def main(fn=None,
     fields_name = [f[0].lower() for f in reader.fields][1:]
 
     nom_champ_haut = NOM_CHAMP_HAUT.lower()
-    #nom_champ_diametre = NOM_CHAMP_DIAMETRE.lower()
+    # nom_champ_diametre = NOM_CHAMP_DIAMETRE.lower()
     nom_champ_rayon = NOM_CHAMP_RAYON.lower()
     nom_champ_z = NOM_CHAMP_Z.lower()
 
     id_haut = index(fields_name, nom_champ_haut)
-    #id_diam = index(fields_name, nom_champ_diametre)
+    # id_diam = index(fields_name, nom_champ_diametre)
     id_rayon = index(fields_name, nom_champ_rayon)
     id_z = index(fields_name, nom_champ_z)
 
@@ -260,7 +260,7 @@ def main(fn=None,
         if id_haut >= 0:
             haut = rec[id_haut]
         if id_rayon >= 0:
-            diam = rec[id_rayon]*2
+            diam = rec[id_rayon] * 2
         haut, diam = fonction(haut, diam)
         hauteurs.append(haut)
         diametres.append(diam)
@@ -270,13 +270,19 @@ def main(fn=None,
         if id_z >= 0:
             z = rec[id_z]
 
-        if len(shp.points) > 1:
+        if not (shp.points):
+            continue
+
+        elif len(shp.points) > 1:
             # TODO traiter les multipoints !
             print ('MULTIPOINT !')
         else:
             x, y = shp.points[0]
             if not z:
-                z = shp.z[0]
+                try:
+                    z = shp.z[0]
+                except:
+                    pass
             pos = c4d.Vector(x, z, y) - centre
             points.append(pos)
 

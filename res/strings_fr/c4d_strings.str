@@ -34,6 +34,9 @@ STRINGTABLE
 	SITG_GRPE_SUR_TERRAIN_NOM  "Groupe sur terrain";
 	SITG_GRPE_SUR_TERRAIN_HLP  "plaque les enfants de l'objet s\u00E9lectionn\u00E9 sur l'objet polygonal plac\u00E9 juste apr\u00e8s dans la hi\u00E9rarchie";
 
+    SITG_POINTS_ON_SURFACE_NOM  "Points sur terrain";
+    SITG_POINTS_ON_SURFACE_HLP  "Projeter les points du premier objet s\u00E9lectionn\u00E9 sur l'objet polygonal s\u00E9lectionn\u00E9 suivant";
+
 	SITG_GEOREF_OBJ_NOM        "G\u00E9or\u00E9f\u00E9rencer les objets";
 	SITG_GEOREF_OBJ_HLP        "g\u00E9or\u00E9f\u00E9rence les objets s\u00E9lectionn\u00E9s en leurs appliquant un Geotag, pour pouvoir le copier/coller dans un autre document par exemple";
 
@@ -63,4 +66,5 @@ STRINGTABLE
 
     SITG_EMPRISE_GEO_NOM             "Emprise g\u00E9ographique";
     SITG_EMPRISE_GEO_HLP   "Dialogue pour r\u00E9cup\u00E9rer les coordonn\u00E9es d'un objet ou d'une vue pour les copier ou les exporter";
+
 }

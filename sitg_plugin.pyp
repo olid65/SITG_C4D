@@ -6,8 +6,8 @@ import webbrowser
 #from c4d import plugins, bitmaps, gui, documents, Vector
 from c4d.plugins import GeLoadString as txt
 
-__version__ = 3.10
-__date__    = "01/01/2021"
+__version__ = 3.11
+__date__    = "04/01/2021"
 
 
 
@@ -21,6 +21,7 @@ from libs import importMNT
 from libs import import3DS
 from libs import importArbresSSIG
 from libs import groupeTerrain
+from libs import pointsOnSurface
 from libs import georefObjet
 from libs import importShapefile
 from libs import importShapeBatiDALE
@@ -43,6 +44,8 @@ SITG_IMPORT_SHAPE_ID            = 1034159
 SITG_IMPORT_MNT_ID              = 1034160     
 SITG_IMPORT_3DS_ID              = 1034161  
 SITG_GROUPE_SUR_TERRAIN_ID      = 1034191
+SITG_POINTS_ON_SURFACE_ID       = 1056430
+
 SITG_GEOREFERENCER_UN_OBJET_ID  = 1034192  
 SITG_IMPORT_SHAPE_BATI_DALE_ID  = 1034565 
 SITG_IMPORT_SHAPE_BATI_DALE2_ID = 1034660 
@@ -122,6 +125,10 @@ SITG_TREES_FROM_LINE_HLP         = 2406
 
 SITG_EMPRISE_GEO_NOM             =2410
 SITG_EMPRISE_GEO_HLP             =2411
+
+SITG_POINTS_ON_SURFACE_NOM       =1903
+SITG_POINTS_ON_SURFACE_HLP       =1904
+
 
 
 
@@ -224,6 +231,11 @@ class GroupeSurTerrain(c4d.plugins.CommandData):
         groupeTerrain.main()
         return True
 
+class PointsOnSurface(c4d.plugins.CommandData):
+    def Execute(self, doc) :
+        pointsOnSurface.main()
+        return True
+
 class GeorefObj(c4d.plugins.CommandData):
     def Execute(self, doc) :
         georefObjet.main()
@@ -283,9 +295,10 @@ if __name__=='__main__':
     c4d.plugins.RegisterCommandPlugin(id=SITG_TREES_FROM_POLYGON_ID, str = "#$51"+ txt(SITG_TREES_FROM_POLYGON_NOM), info = 0, help = txt(SITG_TREES_FROM_POLYGON_HLP), dat = TreesFromPolygons(), icon = icone("grpeTerrain.tif"))
     c4d.plugins.RegisterCommandPlugin(id=SITG_TREES_FROM_LINE_ID, str = "#$52"+ txt(SITG_TREES_FROM_LINE_NOM), info = 0, help = txt(SITG_TREES_FROM_LINE_HLP), dat = TreesFromLines(), icon = icone("grpeTerrain.tif"))
     c4d.plugins.RegisterCommandPlugin(id=SITG_GROUPE_SUR_TERRAIN_ID, str = "#$53"+ txt(SITG_GRPE_SUR_TERRAIN_NOM), info = 0, help = txt(SITG_GRPE_SUR_TERRAIN_HLP), dat = GroupeSurTerrain(), icon = icone("grpeTerrain.tif"))
-    c4d.plugins.RegisterCommandPlugin(id=SITG_GEOREFERENCER_UN_OBJET_ID, str = "#$54"+ txt(SITG_GEOREF_OBJ_NOM), info = 0, help = txt(SITG_GEOREF_OBJ_HLP), dat = GeorefObj(), icon = icone("georef.tif"))
-    c4d.plugins.RegisterCommandPlugin(id=SITG_ACTIVETEXTURE_ID, str = "#$55" + txt(SITG_ACTIVETEXTURE_NOM), info = 0, help = txt(SITG_ACTIVETEXTURE_HLP), dat = ActiveTexture(), icon = icone("activeTex2.png"))
-    c4d.plugins.RegisterCommandPlugin(id=SITG_EMPRISE_GEO_ID, str="#$56" + txt(SITG_EMPRISE_GEO_NOM), info=0, help=txt(SITG_EMPRISE_GEO_HLP), dat=empriseGeographique(), icon=icone("georef.tif"))
+    c4d.plugins.RegisterCommandPlugin(id=SITG_POINTS_ON_SURFACE_ID, str = "#$54"+ txt(SITG_POINTS_ON_SURFACE_NOM), info = 0, help = txt(SITG_POINTS_ON_SURFACE_HLP), dat = PointsOnSurface(), icon = icone("grpeTerrain.tif"))
+    c4d.plugins.RegisterCommandPlugin(id=SITG_GEOREFERENCER_UN_OBJET_ID, str = "#$55"+ txt(SITG_GEOREF_OBJ_NOM), info = 0, help = txt(SITG_GEOREF_OBJ_HLP), dat = GeorefObj(), icon = icone("georef.tif"))
+    c4d.plugins.RegisterCommandPlugin(id=SITG_ACTIVETEXTURE_ID, str = "#$56" + txt(SITG_ACTIVETEXTURE_NOM), info = 0, help = txt(SITG_ACTIVETEXTURE_HLP), dat = ActiveTexture(), icon = icone("activeTex2.png"))
+    c4d.plugins.RegisterCommandPlugin(id=SITG_EMPRISE_GEO_ID, str="#$57" + txt(SITG_EMPRISE_GEO_NOM), info=0, help=txt(SITG_EMPRISE_GEO_HLP), dat=empriseGeographique(), icon=icone("georef.tif"))
 
     c4d.plugins.RegisterCommandPlugin(id=SITG_SEPARATOR_04, str = "#$60--", info = 0, help = "", dat = SITG(), icon = None)
 

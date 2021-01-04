@@ -20,8 +20,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b2dfb075-3f4c-4b83-b863-03531f974327" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/libs/empriseGeo.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/libs/pointsOnSurface.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/importArbresShapePoint.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/importArbresShapePoint.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/res/c4d_symbols.h" beforeDir="false" afterPath="$PROJECT_DIR$/res/c4d_symbols.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/res/strings_fr/c4d_strings.str" beforeDir="false" afterPath="$PROJECT_DIR$/res/strings_fr/c4d_strings.str" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sitg_plugin.pyp" beforeDir="false" afterPath="$PROJECT_DIR$/sitg_plugin.pyp" afterDir="false" />
@@ -37,13 +38,14 @@
       <usages-collector id="statistics.lifecycle.project">
         <counts>
           <entry key="project.open.time.2" value="2" />
-          <entry key="project.opened" value="2" />
+          <entry key="project.open.time.4" value="1" />
+          <entry key="project.opened" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="h" value="1" />
-          <entry key="py" value="1" />
+          <entry key="py" value="4" />
           <entry key="pyp" value="1" />
           <entry key="str" value="1" />
         </counts>
@@ -52,33 +54,33 @@
         <counts>
           <entry key="C++" value="1" />
           <entry key="PLAIN_TEXT" value="1" />
-          <entry key="Python" value="2" />
+          <entry key="Python" value="5" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="h" value="5" />
+          <entry key="h" value="14" />
           <entry key="py" value="21" />
-          <entry key="pyp" value="180" />
-          <entry key="str" value="156" />
+          <entry key="pyp" value="302" />
+          <entry key="str" value="227" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="C++" value="5" />
-          <entry key="PLAIN_TEXT" value="156" />
-          <entry key="Python" value="201" />
+          <entry key="C++" value="14" />
+          <entry key="PLAIN_TEXT" value="227" />
+          <entry key="Python" value="323" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/libs/empriseGeo.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="855">
-              <caret line="270" column="4" lean-forward="true" selection-start-line="270" selection-start-column="4" selection-end-line="271" selection-end-column="32" />
+            <state relative-caret-position="4020">
+              <caret line="270" column="4" selection-start-line="270" selection-start-column="4" selection-end-line="271" selection-end-column="32" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
                 <marker date="1609655282644" expanded="true" signature="10211:10267" ph="..." />
@@ -90,8 +92,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sitg_plugin.pyp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="304">
-              <caret line="238" column="117" lean-forward="true" selection-start-line="238" selection-start-column="117" selection-end-line="238" selection-end-column="117" />
+            <state relative-caret-position="663">
+              <caret line="235" column="27" lean-forward="true" selection-start-line="235" selection-start-column="27" selection-end-line="235" selection-end-column="27" />
             </state>
           </provider>
         </entry>
@@ -99,8 +101,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/res/c4d_symbols.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="906">
-              <caret line="63" column="43" selection-start-line="63" selection-start-column="43" selection-end-line="63" selection-end-column="43" />
+            <state relative-caret-position="381">
+              <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
             </state>
           </provider>
         </entry>
@@ -108,8 +110,38 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/res/strings_fr/c4d_strings.str">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="952">
-              <caret line="64" column="111" selection-start-line="64" selection-start-column="111" selection-end-line="64" selection-end-column="111" />
+            <state relative-caret-position="471">
+              <caret line="36" column="43" lean-forward="true" selection-start-line="36" selection-start-column="43" selection-end-line="36" selection-end-column="43" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/libs/importArbresShapePoint.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2063">
+              <caret line="296" column="10" selection-start-line="296" selection-start-column="10" selection-end-line="296" selection-end-column="10" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/libs/pointsOnSurface.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1004">
+              <caret line="93" column="10" selection-start-line="93" selection-start-column="10" selection-end-line="93" selection-end-column="10" />
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/libs/treesFromLines.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="47">
+              <caret line="40" column="32" lean-forward="true" selection-start-line="40" selection-start-column="32" selection-end-line="40" selection-end-column="32" />
             </state>
           </provider>
         </entry>
@@ -135,6 +167,7 @@
       <find>import shapefile</find>
       <find>print</find>
       <find>xrange</find>
+      <find>TXT_NO_SPLINE</find>
     </findStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$</dir>
@@ -146,18 +179,20 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/res/c4d_symbols.h" />
         <option value="$PROJECT_DIR$/libs/empriseGeo.py" />
+        <option value="$PROJECT_DIR$/res/c4d_symbols.h" />
+        <option value="$PROJECT_DIR$/libs/importArbresShapePoint.py" />
+        <option value="$PROJECT_DIR$/libs/pointsOnSurface.py" />
         <option value="$PROJECT_DIR$/sitg_plugin.pyp" />
         <option value="$PROJECT_DIR$/res/strings_fr/c4d_strings.str" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="172" />
-    <option name="y" value="25" />
-    <option name="width" value="2188" />
-    <option name="height" value="1194" />
+    <option name="x" value="190" />
+    <option name="y" value="105" />
+    <option name="width" value="2196" />
+    <option name="height" value="1179" />
   </component>
   <component name="ProjectId" id="1cOLtZETwODpI4dhf8CT7XVX5qc" />
   <component name="ProjectView">
@@ -165,7 +200,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -193,6 +227,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="ProjectViewState">
@@ -256,10 +291,10 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="172" y="25" width="2188" height="1194" extended-state="0" />
+    <frame x="190" y="105" width="2196" height="1179" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20766036" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.20689656" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -278,7 +313,7 @@
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
     </layout>
     <layout-to-restore>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20689656" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -321,8 +356,8 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/libs/empriseGeo.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="855">
-          <caret line="270" column="4" lean-forward="true" selection-start-line="270" selection-start-column="4" selection-end-line="271" selection-end-column="32" />
+        <state relative-caret-position="4020">
+          <caret line="270" column="4" selection-start-line="270" selection-start-column="4" selection-end-line="271" selection-end-column="32" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
             <marker date="1609655282644" expanded="true" signature="10211:10267" ph="..." />
@@ -330,24 +365,48 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sitg_plugin.pyp">
+    <entry file="file://$PROJECT_DIR$/libs/treesFromLines.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="238" column="117" lean-forward="true" selection-start-line="238" selection-start-column="117" selection-end-line="238" selection-end-column="117" />
+        <state relative-caret-position="47">
+          <caret line="40" column="32" lean-forward="true" selection-start-line="40" selection-start-column="32" selection-end-line="40" selection-end-column="32" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/c4d_symbols.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="906">
-          <caret line="63" column="43" selection-start-line="63" selection-start-column="43" selection-end-line="63" selection-end-column="43" />
+        <state relative-caret-position="381">
+          <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libs/importArbresShapePoint.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2063">
+          <caret line="296" column="10" selection-start-line="296" selection-start-column="10" selection-end-line="296" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libs/pointsOnSurface.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1004">
+          <caret line="93" column="10" selection-start-line="93" selection-start-column="10" selection-end-line="93" selection-end-column="10" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sitg_plugin.pyp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="663">
+          <caret line="235" column="27" lean-forward="true" selection-start-line="235" selection-start-column="27" selection-end-line="235" selection-end-column="27" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/res/strings_fr/c4d_strings.str">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="952">
-          <caret line="64" column="111" selection-start-line="64" selection-start-column="111" selection-end-line="64" selection-end-column="111" />
+        <state relative-caret-position="471">
+          <caret line="36" column="43" lean-forward="true" selection-start-line="36" selection-start-column="43" selection-end-line="36" selection-end-column="43" />
         </state>
       </provider>
     </entry>
