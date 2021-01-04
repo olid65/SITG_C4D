@@ -5,7 +5,7 @@ import os.path
 DELTA_ALT = 100 #marge de sécurité pour altitude (utilisé dans getMinMax)
 SUFFIX_EXTRACT = "_extrait"
 NOM_RES = "Arbres_surfaces"
-CLONE_QUANTITY = 100
+CLONE_QUANTITY = 1000
 
 RAYON_SPHERE_DEFAULT = 6
 
