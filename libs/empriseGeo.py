@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import c4d
 import shapefile
 import os
@@ -219,7 +221,7 @@ class DlgBbox(c4d.gui.GeDialog):
             n_min = self.GetFloat(self.N_MIN)
             e_max = self.GetFloat(self.E_MAX)
             e_min = self.GetFloat(self.E_MIN)
-            txt = f"{e_min},{n_min},{e_max},{n_max}"
+            txt = "{0},{1},{2},{3}".format(e_min,n_min,e_max,n_max)
             print(txt)
             c4d.CopyStringToClipboard(txt)
 

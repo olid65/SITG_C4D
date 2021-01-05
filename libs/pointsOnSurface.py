@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import c4d,os,math
 from random import random
 
@@ -80,7 +82,7 @@ def main():
         c4d.gui.MessageDialog(TXT_NOT_POLYGON)
         return
 
-    rep = c4d.gui.QuestionDialog(f"""Les points de "{obj_pts.GetName()}" seront projetés sur "{mnt.GetName()}"\nVoulez-vous continuer ?""")
+    rep = c4d.gui.QuestionDialog("""Les points de "{0}" seront projetés sur "{1}"\nVoulez-vous continuer ?""".format(obj_pts.GetName(),mnt.GetName()))
 
     if not rep : return
     doc.StartUndo()
