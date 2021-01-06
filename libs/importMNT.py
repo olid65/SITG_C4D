@@ -58,23 +58,23 @@ def terrainFromASC(fn):
 
     ncols = int(header['ncols'])
     nrows = int(header['nrows'])
-    xcorner = float(header['xllcorner'])
-    ycorner = float(header['yllcorner'])
+    xcorner = float(header['xllcorner'].replace(',','.'))
+    ycorner = float(header['yllcorner'].replace(',','.'))
 
     # on teste si on a une valeur cellsize
     if header.get('cellsize', None):
-        cellsize = float(header['cellsize'])
+        cellsize = float(header['cellsize'].replace(',','.'))
         dx = cellsize
         dy = cellsize
     # sinon on récupère dx et dy
     else:
-        dx = float(header['dx'])
-        dy = float(header['dy'])
+        dx = float(header['dx'].replace(',','.'))
+        dy = float(header['dy'].replace(',','.'))
 
     nodata = 0.
     if nb == 6 or nb == 7:
         try:
-            nodata = float(header['nodata_value'])
+            nodata = float(header['nodata_value'].replace(',','.'))
         except:
             nodata = 0.
 
