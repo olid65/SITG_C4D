@@ -6,8 +6,8 @@ import webbrowser
 #from c4d import plugins, bitmaps, gui, documents, Vector
 from c4d.plugins import GeLoadString as txt
 
-__version__ = 3.13
-__date__    = "06/01/2021"
+__version__ = 3.14
+__date__    = "25/01/2021"
 
 
 
@@ -33,6 +33,7 @@ from libs import import_SwissBuildings3D
 from libs import treesFromPolygons
 from libs import treesFromLines
 from libs import empriseGeo
+from libs import import_ouvrages_art_et_bat_remarquables
 
 SITG_MODULE_ID                  = 1034152 
 SITG_IMPORT_DOSSIER_ID          = 1034151
@@ -42,7 +43,9 @@ SITG_ACTIVETEXTURE_ID           = 1034157
 SITG_IMPORT_RASTER_ID           = 1034158     
 SITG_IMPORT_SHAPE_ID            = 1034159     
 SITG_IMPORT_MNT_ID              = 1034160     
-SITG_IMPORT_3DS_ID              = 1034161  
+SITG_IMPORT_3DS_ID              = 1034161
+SITG_IMPORT_OA_BR_ID            = 1056540
+
 SITG_GROUPE_SUR_TERRAIN_ID      = 1034191
 SITG_POINTS_ON_SURFACE_ID       = 1056430
 
@@ -116,6 +119,9 @@ SITG_IMPORT_ARBRE_SHAPE_POLY_HLP = 2206
 
 SITG_IMPORT_BATI_SWISSTOPO_NOM = 2301
 SITG_IMPORT_BATI_SWISSTOPO_HLP = 2302
+
+SITG_IMPORT_OA_BR_NOM           = 2303
+SITG_IMPORT_OA_BR_HLP           = 2304
 
 SITG_TREES_FROM_POLYGON_NOM      = 2401
 SITG_TREES_FROM_POLYGON_HLP      = 2402
@@ -214,6 +220,11 @@ class ImportArbresShapePoly(c4d.plugins.CommandData):
         importArbresShapePoly.main(fn_arbres_srce = fn_arbres)
         return True
 
+class Import_OA_BR(c4d.plugins.CommandData):
+    def Execute(self, doc) :
+        import_ouvrages_art_et_bat_remarquables.main()
+        return True
+
 class TreesFromPolygons(c4d.plugins.CommandData):
     def Execute(self, doc) :
         fn_arbres = os.path.join(os.path.dirname(__file__),NAME_FILE_ARBRES_IGN)
@@ -276,9 +287,13 @@ if __name__=='__main__':
     c4d.plugins.RegisterCommandPlugin(id=SITG_IMPORT_RASTER_ID, str = "#$07" + txt(SITG_IMPORT_RASTER_NOM), info = 0, help = txt(SITG_IMPORT_RASTER_HLP), dat = ImportRaster(), icon = icone("wld.tif"))
     c4d.plugins.RegisterCommandPlugin(id=SITG_IMPORT_ARBRES_SSIG_ID, str = "#$08" + txt(SITG_IMPORT_ARBRES_SSIG_NOM), info = 0, help = txt(SITG_IMPORT_ARBRES_SSIG_HLP), dat = ImportArbresSSIG(), icon = icone("arbresSSIG.tif"))
     c4d.plugins.RegisterCommandPlugin(id=SITG_IMPORT_3DS_ID, str = "#$09" + txt(SITG_IMPORT_3DS_NOM), info = 0, help = txt(SITG_IMPORT_3DS_HLP), dat = Import3DS(), icon = icone("3ds.tif"))
-    c4d.plugins.RegisterCommandPlugin(id=SITG_IMPORT_BATI_SWISSTOPO_ID, str="#$10" + txt(SITG_IMPORT_BATI_SWISSTOPO_NOM), info=0,
+    ##################
+    c4d.plugins.RegisterCommandPlugin(id=SITG_IMPORT_OA_BR_ID, str="#$10" + txt(SITG_IMPORT_OA_BR_NOM), info=0,
+                                      help=txt(SITG_IMPORT_OA_BR_HLP), dat=Import_OA_BR(), icon=icone("3ds.tif"))
+    ########################
+    c4d.plugins.RegisterCommandPlugin(id=SITG_IMPORT_BATI_SWISSTOPO_ID, str="#$11" + txt(SITG_IMPORT_BATI_SWISSTOPO_NOM), info=0,
                                       help=txt(SITG_IMPORT_BATI_SWISSTOPO_HLP), dat=ImportSwissBuildings3Dshape(), icon=icone("shp.tif"))
-    c4d.plugins.RegisterCommandPlugin(id=SITG_IMPORT_SHAPE_ID, str = "#$11" + txt(SITG_IMPORT_SHAPE_NOM), info = 0, help = txt(SITG_IMPORT_SHAPE_HLP), dat = ImportShape(), icon = icone("shp.tif"))
+    c4d.plugins.RegisterCommandPlugin(id=SITG_IMPORT_SHAPE_ID, str = "#$12" + txt(SITG_IMPORT_SHAPE_NOM), info = 0, help = txt(SITG_IMPORT_SHAPE_HLP), dat = ImportShape(), icon = icone("shp.tif"))
 
 
     c4d.plugins.RegisterCommandPlugin(id=SITG_SEPARATOR_02, str = "#$15--", info = 0, help = "", dat = SITG(), icon = None)

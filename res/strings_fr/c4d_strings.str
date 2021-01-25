@@ -67,4 +67,7 @@ STRINGTABLE
     SITG_EMPRISE_GEO_NOM             "Emprise g\u00E9ographique";
     SITG_EMPRISE_GEO_HLP   "Dialogue pour r\u00E9cup\u00E9rer les coordonn\u00E9es d'un objet ou d'une vue pour les copier ou les exporter";
 
+    SITG_IMPORT_OA_BR_NOM           "Importer des ouvrages d'art et des b\u00E2timents remarquables";
+    SITG_IMPORT_OA_BR_HLP           "S\u00E9lectionner le dossier contenant les dossiers des ouvrages et/ou des u00E2timents";
+
 }

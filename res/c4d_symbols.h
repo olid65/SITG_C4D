@@ -66,6 +66,9 @@ enum
     SITG_EMPRISE_GEO_NOM             =2410,
     SITG_EMPRISE_GEO_HLP             =2411,
 
+    SITG_IMPORT_OA_BR_NOM           = 2303,
+    SITG_IMPORT_OA_BR_HLP           = 2304,
+
 
 
 	
