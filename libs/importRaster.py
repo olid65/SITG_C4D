@@ -221,6 +221,16 @@ def isInMetre(doc):
     if unit == c4d.DOCUMENT_UNIT_M :return True
     return False
 
+
+def non_existant_fn(fn):
+    """renvoie un nom de fichier incrementé qui n'existe pas"""
+    i=1
+    name,ext = os.path.splitext(fn)
+    while os.path.exists(fn):
+        fn = f'{name}_{i}{ext}'
+        i+=1
+    return fn
+
     
 def main(fn = None, fn_calage = None, alerte = True):
     doc = c4d.documents.GetActiveDocument()
@@ -279,9 +289,11 @@ def main(fn = None, fn_calage = None, alerte = True):
         if not os.path.isdir(path_dst):
             os.makedirs(path_dst)
         dst = os.path.join(path_dst,os.path.basename(fn))
-        #si l'image n'existe pas deja on copie
-        if not os.path.isfile(dst):    
-            shutil.copyfile(fn, dst)
+
+        # on prend un nom de fichier qui n'existe pas
+        dst = non_existant_fn(dst)
+
+        shutil.copyfile(fn, dst)
             
         fn = dst
  
