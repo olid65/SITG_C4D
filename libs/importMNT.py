@@ -22,7 +22,10 @@ def polygonise(obj, nb_rows, nb_cols):
         for c in range(nb_cols):
             if c < (nb_cols - 1) and r < (nb_rows - 1):
                 try:
-                    obj.SetPolygon(id_poly, c4d.CPolygon(id_pt, id_pt + nb_cols, id_pt + 1 + nb_cols, id_pt + 1))
+                    #id_pt, id_pt + nb_cols, id_pt + 1 + nb_cols, id_pt + 1
+                    # id_pt, id_pt + 1, id_pt + 1 + nb_cols, id_pt + nb_cols
+
+                    obj.SetPolygon(id_poly, c4d.CPolygon(id_pt, id_pt + 1, id_pt + 1 + nb_cols, id_pt + nb_cols))
                 except:
                     print (id_poly, '->', (id_pt, id_pt + nb_cols, id_pt + 1 + nb_cols, id_pt + 1))
                 id_poly += 1
@@ -130,8 +133,14 @@ def main(fn=None):
     # fn = '/Volumes/HD_OD/Eoliennes_Mollendruz/SIG/ARC_leman_def/test100MNT.asc'
 
     terrain = terrainFromASC(fn)
+
+    tag = c4d.BaseTag(c4d.Tphong)
+    tag[c4d.PHONGTAG_PHONG_ANGLELIMIT] = True
+    terrain.InsertTag(tag)
+
     doc.InsertObject(terrain)
-    # c4d.CallCommand(12148) # Zoom sur la scene
+    doc.SetActiveObject(terrain)
+    c4d.CallCommand(12151) # Zoom sur l'objet actif
     c4d.EventAdd()
     return
 
