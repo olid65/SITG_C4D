@@ -110,6 +110,9 @@ def terrainFromASC(fn):
 
     polygonise(poly, nrows, ncols)
     insert_geotag(poly, origine)
+    tag = c4d.BaseTag(c4d.Tphong)
+    tag[c4d.PHONGTAG_PHONG_ANGLELIMIT] = True
+    poly.InsertTag(tag)
 
     poly.Message(c4d.MSG_UPDATE)
     return poly
@@ -133,10 +136,6 @@ def main(fn=None):
     # fn = '/Volumes/HD_OD/Eoliennes_Mollendruz/SIG/ARC_leman_def/test100MNT.asc'
 
     terrain = terrainFromASC(fn)
-
-    tag = c4d.BaseTag(c4d.Tphong)
-    tag[c4d.PHONGTAG_PHONG_ANGLELIMIT] = True
-    terrain.InsertTag(tag)
 
     doc.InsertObject(terrain)
     doc.SetActiveObject(terrain)
