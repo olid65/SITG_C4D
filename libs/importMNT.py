@@ -90,7 +90,8 @@ def terrainFromASC(fn):
         nb_poly = (ncols - 1) * (nrows - 1)
         poly = c4d.PolygonObject(nb_pts, nb_poly)
         poly.SetName(name)
-        origine = c4d.Vector(xcorner, 0, ycorner + nrows * dy)
+        #j'ai rajouté +dx/2 et -dy/2 car le point est au centre du pixel
+        origine = c4d.Vector(xcorner+dx/2, 0, ycorner + nrows * dy-dy/2)
 
         pos = c4d.Vector(0)
         i = 0

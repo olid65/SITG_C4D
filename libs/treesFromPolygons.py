@@ -261,7 +261,6 @@ def arbresSurface(splines, mnt, name=NOM_RES, fn_arbres_srce=None):
     surface = area2Dpolyobj(mnt_extract)
 
     arbres_source = None
-    print()
     if fn_arbres_srce:
         arbres_source = getArbresSourcesFromFile(fn_arbres_srce)
 
