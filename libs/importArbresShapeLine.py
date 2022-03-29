@@ -74,7 +74,7 @@ def fusionSplines(lst_sp, nom=None):
         mg = sp.GetMg()
         pts.extend([p * mg for p in sp.GetAllPoints()])
         if sp.GetSegmentCount():
-            for id in xrange(sp.GetSegmentCount()):
+            for id in range(sp.GetSegmentCount()):
                 seg.append(sp.GetSegment(id)['cnt'])
                 nb_seg += 1
         else:
