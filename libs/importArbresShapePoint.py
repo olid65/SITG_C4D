@@ -95,9 +95,10 @@ def create_mograph_cloner(doc, points, hauteurs, diametres, objs_srces, centre=N
     cloner[c4d.MGCLONER_MODE] = 2  # repartition aleatoire des clones
 
     # insertion des objets source
-    for o in objs_srces.GetChildren():
-        clone = o.GetClone()
-        clone.InsertUnderLast(cloner)
+    if objs_srces:
+        for o in objs_srces.GetChildren():
+            clone = o.GetClone()
+            clone.InsertUnderLast(cloner)
 
     tagHauteurs = c4d.BaseTag(440000231)
     cloner.InsertTag(tagHauteurs)
@@ -199,8 +200,7 @@ def creerGeoTag(obj, doc, centre):
 
 
 # Main function
-def main(fn=None,
-         fn_arbres='/Users/donzeo/Library/Preferences/MAXON/Maxon Cinema 4D R21_90860A1D/plugins/SITG_C4D/__arbres_2018__.c4d'):
+def main(fn=None,fn_arbres='/Users/donzeo/Library/Preferences/MAXON/Maxon Cinema 4D R21_90860A1D/plugins/SITG_C4D/__arbres_2018__.c4d'):
     fn = c4d.storage.LoadDialog(type=c4d.FILESELECTTYPE_IMAGES, title="Séléctionnez le fichier .shp :")
     if not fn: return
 
