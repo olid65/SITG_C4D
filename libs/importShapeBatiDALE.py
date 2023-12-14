@@ -105,7 +105,8 @@ class SHP4D(object):
         for rec, geom in zip(self.reader.iterRecords(), self.geoms.GetChildren()):
             mg = geom.GetMg()
             pos = mg.off
-            pos.y = float(rec[id_champ])
+            try : pos.y = float(rec[id_champ])
+            except : pos.y = 0.0
             mg.off = pos
             geom.SetMg(mg)
 
@@ -113,7 +114,8 @@ class SHP4D(object):
         idHaut = self.fields_name.index(champHaut)
         idBas = self.fields_name.index(champBas)
         for rec, extr in zip(self.reader.iterRecords(), self.geoms.GetChildren()):
-            haut = float(rec[idHaut])
+            try : haut = float(rec[idHaut])
+            except : haut = 0.0
             extr[c4d.EXTRUDEOBJECT_EXTRUSIONOFFSET] = haut
 
 
