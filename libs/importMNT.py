@@ -2,6 +2,8 @@
 
 # Modifié le 27 octobre 2017:
 #  gestion des fichiers à 7 lignes d'entête avec dx et dy au lieu de cellsize'
+# Modifié le 27 mars 2024:
+#  gestion des valeurs d'altitude négatives -> 0
 
 import c4d, re
 import os.path
@@ -102,6 +104,7 @@ def terrainFromASC(fn):
 
                 y = float(val)
                 if y == nodata: y = 0.0
+                if y < 0: y = 0.0
                 pos.y = y
                 poly.SetPoint(i, pos)
                 pos.x += dx
