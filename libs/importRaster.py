@@ -1,322 +1,290 @@
 # -*- coding: utf-8 -*-
-
+import math
+import os
+import shutil
 
 import c4d
-import os,glob,math,shutil
 
-CONTAINER_ORIGIN =1026473  
-
-""" TODO :
-    remplacer le geotag par un autre système ??? ou améliorer le geotag
-    """
-
-def listdirectory(path): 
-    """retourne une liste de tous les dossiers en enfants de path"""
-    res=[] 
-    
-    for root, dirs, files in os.walk(path): 
-        for i in dirs: 
-            res.append(os.path.join(root, i))
-    return res
-
-def is_in_doc_path(fn,doc):
-    """retourne vrai si le fichier est au meme endroit que doc 
-       ou dans tex ou dans un sous dossier de tex"""
-    path_img,name_img = os.path.split(fn)
-    path_doc = doc.GetDocumentPath()    
-    if not path_doc : 
-        return False
-    if path_doc==path_img:
-        return True
-    path_tex = os.path.join(path_doc,'tex')
-    if path_tex == path_img:
-        return True
-    lst_dir =listdirectory(path_tex)
-    if path_img in lst_dir:
-        return True
-    return False
-
-class Geopict ():
-
-    """classe pour la gestion d'images g\or\f\renc\es"""
-
-    def __init__(self,fn,fn_calage,doc):
-        self.doc = doc
-        self.fn = fn
-        name = os.path.splitext(self.fn)[0]
-        self.f_calage = fn_calage
-        self.readCalage()
-        self.calculRef()
-
-            
-
-    def readCalage(self):
-        """fonction pour la lecture du fichier de calage"""
-        try :
-            with open(self.f_calage,'r') as f :
-               self.val_pix = float(f.readline().split()[0])
-               val2 = float(f.readline().split()[0])
-               val3 = float(f.readline().split()[0])
-               val4 = float(f.readline().split()[0])
-               self.val_x = float(f.readline().split()[0])
-               self.val_z = float(f.readline().split()[0])
-               f.close()
+CONTAINER_ORIGIN = 1026473
+GEOTAG = 1026472
 
 
-        except IOError:
-            print ("Il n'y a pas de fichier de calage")
-            return False
-
-            
-
-        else :
-            return True
-
-            
-
-    def calculRef(self):
-
-        bmp = c4d.bitmaps.BaseBitmap()
-
+def read_matrix(path):
+    with open(path, encoding="utf-8-sig") as stream:
+        lines = stream.read().strip().splitlines()
+    if len(lines) != 6:
+        raise ValueError(f"{path} doit contenir six lignes (A, D, B, E, C, F).")
+    values = []
+    for i, line in enumerate(lines, 1):
         try:
-            fn = self.fn
-            bmp.InitWith(fn)
-            self.size_px = bmp.GetSize()
-            self.size = c4d.Vector(self.size_px[0]*self.val_pix,0,
-                         self.size_px[1]*self.val_pix)
-            #pour le min et max ne pas oublier que sur le fichier de calage la position est le centre du premier pixel
-            self.min = c4d.Vector(self.val_x - self.val_pix/2.0,0.0,self.val_z + self.val_pix/2.0 -self.size.z)
-            self.max = self.min+self.size
-            self.centre = (self.min+self.max)/2.0
-        except :
-
-            print ("Probleme avec l'image")
-
-            
-
-    def creerTexture(self,relatif = False, win = False):
-        self.mat = c4d.BaseMaterial(c4d.Mmaterial)
-        self.doc.InsertMaterial(self.mat)
-        self.doc.AddUndo(c4d.UNDOTYPE_NEW,self.mat)
-        shd = c4d.BaseList2D(c4d.Xbitmap)
-        #ATENTION au backslash suivi de t ou de p cela est consid\r\ comme tab ou 
-        fn = self.fn
-        if is_in_doc_path(fn,self.doc):
-            shd[c4d.BITMAPSHADER_FILENAME] = os.path.basename(fn)
-        else:
-            shd[c4d.BITMAPSHADER_FILENAME] = fn
-        self.mat[c4d.MATERIAL_COLOR_SHADER] = shd
-        self.mat.InsertShader(shd)
-        self.mat[c4d.MATERIAL_PREVIEWSIZE]=12#taille de pr\visualisation
-        self.mat.SetName(os.path.basename(fn)[:-4])
-        self.mat.Message(c4d.MSG_UPDATE)
-        self.mat.Update(True, True)
-
-    def creerPlan(self):
-
-        plan = c4d.BaseObject(c4d.Oplane)
-        plan[c4d.PRIM_PLANE_WIDTH]=self.size.x
-        plan[c4d.PRIM_PLANE_HEIGHT]=self.size.z
-        plan[c4d.PRIM_PLANE_SUBW]=1
-        plan[c4d.PRIM_PLANE_SUBH] =1
-        
-        origine = self.doc[CONTAINER_ORIGIN]
-        if not origine:
-            origine = self.centre
-            self.doc[CONTAINER_ORIGIN]= origine
-        plan.SetAbsPos(self.centre-origine)
-        plan.SetName(os.path.basename(self.fn))
-        self.creerTagTex(plan)
-        self.creerGeoTag(plan)
-        self.doc.InsertObject(plan)  
-        self.doc.AddUndo(c4d.UNDOTYPE_NEW,plan)     
-
-    def creerTagTex(self,obj,displayTag = True):
-        if displayTag:
-            tgdisp = c4d.BaseTag(c4d.Tdisplay)#tag affichage
-            tgdisp[c4d.DISPLAYTAG_AFFECT_DISPLAYMODE]=True
-            tgdisp[c4d.DISPLAYTAG_SDISPLAYMODE]=7 #Ombrage constant
-            
-            obj.InsertTag(tgdisp)
-   
-
-        tgtex = c4d.BaseTag(c4d.Ttexture)#tag affichage
-        tgtex[c4d.TEXTURETAG_MATERIAL]=self.mat
-        tgtex[c4d.TEXTURETAG_PROJECTION]=2 #projection planaire
-        tgtex[c4d.TEXTURETAG_TILE]=False #r\p\titions
-        tgtex[c4d.TEXTURETAG_SIZE]=c4d.Vector(self.size.x/2,self.size.z/2, 1)
-        tgtex[c4d.TEXTURETAG_ROTATION]=c4d.Vector(0,-math.pi/2,0)
-        
-        tgtex[CONTAINER_ORIGIN] = self.centre
-
-        #dernier tag
-        last = None
-        tags = obj.GetTags()
-        if len(tags):
-            last = tags[-1]
-
-        obj.InsertTag(tgtex, last)
-        return tgtex
-        
-    def creerGeoTag(self,obj):
-        pos = obj.GetMg().off
-        geoTag = c4d.BaseTag(1026472) #GeoTag
-        origine = self.doc[CONTAINER_ORIGIN]
-        if not origine:
-            origine = self.centre
-            self.doc[CONTAINER_ORIGIN]= origine
-        geoTag[CONTAINER_ORIGIN] = origine + pos
-        
-        obj.InsertTag(geoTag)
-        return geoTag
+            value = float(line.strip())
+            if not math.isfinite(value):
+                raise ValueError
+        except ValueError:
+            raise ValueError(f"{path}, ligne {i} : nombre invalide ({line}).")
+        values.append(value)
+    return values
 
 
-    def __str__(self):
-        sp = 40
-        txt = ('-'*sp*3+'\n'+
-                "FICHIER DE CALAGE :\n"+
-                ' '*sp+self.f_calage+'\n'+
-                ' '*sp+'valeur du pixel : '+str(self.val_pix)+'\n'+
-                ' '*sp+'coord x         : '+str(self.val_x)+'\n'+
-                ' '*sp+'coord z         : '+str(self.val_z)+'\n'+
-                '-'*sp*3+'\n'+
-
-                "IMAGE :\n"+
-                ' '*sp+self.fn+'\n'+
-                ' '*sp+'taille (px)     : '+str(self.size_px)+'\n'+
-                ' '*sp+'taille (m)      : '+str(self.size)+'\n'+
-                ' '*sp+'min             : '+str(self.min)+'\n'+
-                ' '*sp+'max             : '+str(self.max)+'\n'+
-                ' '*sp+'centre          : '+str(self.centre)+'\n'+
-                '-'*sp*3)
-        return txt
+IMAGE_EXTENSIONS = (".jpg", ".jpeg", ".tif", ".tiff", ".png", ".gif", ".bmp",
+                    ".psd", ".psb", ".jp2", ".j2k", ".webp", ".tga", ".exr", ".hdr")
 
 
-
-def readTFW(fn):
-    if fn :
-        try :
-            with open(fn,'r') as f :
-               val_pix = float(f.readline().split()[0])
-               val2 = float(f.readline().split()[0])
-               val3 = float(f.readline().split()[0])
-               val4 = float(f.readline().split()[0])
-               val_x = float(f.readline().split()[0])
-               val_z = float(f.readline().split()[0])
-               f.close()
+def world_suffixes(ext):
+    return (ext[:2] + ext[-1:] + "w", ext + "w", ".wld")
 
 
-        except IOError:
-            print ("Il n'y a pas de fichier")
-            return False            
+def find_world_file(image):
+    base, ext = os.path.splitext(os.path.basename(image).lower())
+    directory = os.path.dirname(image)
+    names = {name.lower(): name for name in sorted(os.listdir(directory))}
+    for suffix in world_suffixes(ext):
+        name = names.get(base + suffix)
+        if name and os.path.isfile(os.path.join(directory, name)):
+            return os.path.join(directory, name)
+    raise ValueError(f"Aucun fichier de calage trouvé pour {image}.")
 
-        else :
-            return True
 
-    else :
+def image_for_world_file(path):
+    directory = os.path.dirname(path)
+    stem, suffix = os.path.splitext(os.path.basename(path).casefold())
+    matches = []
+    for name in sorted(os.listdir(directory)):
+        base, ext = os.path.splitext(name.casefold())
+        if base == stem and ext in IMAGE_EXTENSIONS and suffix in world_suffixes(ext):
+            candidate = os.path.join(directory, name)
+            if os.path.isfile(candidate):
+                matches.append(candidate)
+    if len(matches) == 1:
+        return matches[0]
+    reason = "Plusieurs images correspondent" if matches else "Aucune image correspondante"
+    return c4d.storage.LoadDialog(type=c4d.FILESELECTTYPE_IMAGES, def_path=directory,
+                                  title=f"{reason} : choisissez l’image pour {os.path.basename(path)}")
+
+
+class Raster:
+    def __init__(self, image, world_file):
+        a, d, b, e, x, z = read_matrix(world_file)
+        self.det = a * e - b * d
+        if not math.isfinite(self.det) or not self.det:
+            raise ValueError(f"{world_file} : la matrice ne peut pas être inversée.")
+        bitmap = c4d.bitmaps.BaseBitmap()
+        result, _ = bitmap.InitWith(image)
+        self.width, self.height = bitmap.GetSize()
+        if result != c4d.IMAGERESULT_OK or min(self.width, self.height) <= 0:
+            raise ValueError(f"Image illisible : {image} (code Cinema 4D {result}).")
+        self.column = c4d.Vector(a, 0, d)
+        self.row = c4d.Vector(b, 0, e)
+        # C et F désignent le centre du pixel supérieur gauche.
+        self.centre = (c4d.Vector(x, 0, z) + self.column * ((self.width - 1) / 2)
+                       + self.row * ((self.height - 1) / 2))
+
+    def plane(self, origin):
+        half_x = self.column * (self.width / 2)
+        half_y = self.row * (self.height / 2)
+        obj = c4d.PolygonObject(4, 1)
+        obj.SetAllPoints([-half_x - half_y, half_x - half_y,
+                          half_x + half_y, -half_x + half_y])
+        indices = (0, 1, 2, 3) if self.det < 0 else (0, 3, 2, 1)
+        obj.SetPolygon(0, c4d.CPolygon(*indices))
+        obj.SetAbsPos(self.centre - origin)
+        obj.Message(c4d.MSG_UPDATE)
+        return obj
+
+    def uv(self, delta):
+        u = (self.row.z * delta.x - self.row.x * delta.z) / self.det
+        v = (self.column.x * delta.z - self.column.z * delta.x) / self.det
+        return c4d.Vector(0.5 + u / self.width, 0.5 + v / self.height, 0)
+
+    def mapping(self, obj, origin, texture):
+        matrix = obj.GetMg()
+        matrix.off += origin - self.centre
+        if obj.CheckType(c4d.Opolygon):
+            count = obj.GetPolygonCount()
+            if not count:
+                raise ValueError("L’objet sélectionné ne contient aucun polygone.")
+            coords = [self.uv(matrix * p) for p in obj.GetAllPoints()]
+            uvw = c4d.UVWTag(count)
+            for i, poly in enumerate(obj.GetAllPolygons()):
+                uvw.SetSlow(i, coords[poly.a], coords[poly.b], coords[poly.c], coords[poly.d])
+            texture[c4d.TEXTURETAG_PROJECTION] = c4d.TEXTURETAG_PROJECTION_UVW
+            return uvw
+
+        # La projection planaire native ne conserve que des axes orthogonaux.
+        # Les gradients locaux incluent la transformation globale de l'objet.
+        axes = (matrix.v1, matrix.v2, matrix.v3)
+        samples = [self.uv(axis) - c4d.Vector(0.5, 0.5, 0) for axis in axes]
+        gu = c4d.Vector(*(s.x for s in samples))
+        gv = c4d.Vector(*(-s.y for s in samples))
+        if not gu.GetLength() or not gv.GetLength() or abs(gu.GetNormalized().Dot(gv.GetNormalized())) > 1e-7:
+            raise ValueError("Pour ce calage, rendez l’objet sélectionné polygonal ou désélectionnez-le pour créer un plan.")
+        u = gu / (2 * gu.Dot(gu))
+        v = gv / (2 * gv.Dot(gv))
+        centre = self.uv(matrix.off)
+        offset = u * (1 - 2 * centre.x) + v * (2 * centre.y - 1)
+        texture[c4d.TEXTURETAG_PROJECTION] = c4d.TEXTURETAG_PROJECTION_FLAT
+        texture.SetMl(c4d.Matrix(offset, u, v, u.Cross(v).GetNormalized()))
+        return None
+
+
+def texture_reference(image, directory, alert):
+    candidates = [os.path.basename(image)]
+    if directory:
+        try:
+            relative = os.path.relpath(image, os.path.join(directory, "tex"))
+        except ValueError:  # Volumes différents sous Windows.
+            relative = os.pardir
+        if relative.split(os.sep)[0] != os.pardir:
+            candidates.extend((relative, os.path.join("tex", relative)))
+    for name in candidates:
+        resolved = c4d.GenerateTexturePath(directory, name, "")
+        if resolved and os.path.isfile(resolved) and os.path.samefile(image, resolved):
+            return name, None
+
+    if directory:
+        if c4d.gui.QuestionDialog(
+            f"Copier « {os.path.basename(image)} » dans le dossier tex du projet "
+            "pour utiliser un chemin relatif ?\n\nNon : conserver le chemin absolu de l’image."
+        ):
+            return copy_texture(image, os.path.join(directory, "tex"))
+    elif alert:
+        c4d.gui.MessageDialog("Document non enregistré : la texture utilisera le chemin absolu de l’image.")
+    return image, None
+
+
+def copy_texture(image, directory):
+    os.makedirs(directory, exist_ok=True)
+    name, ext = os.path.splitext(os.path.basename(image))
+    index = 0
+    while True:
+        filename = (name if not index else f"{name}_{index}") + ext
+        path = os.path.join(directory, filename)
+        try:
+            target = open(path, "xb")
+        except FileExistsError:
+            if os.path.samefile(image, path):
+                return filename, None
+            index += 1
+            continue
+        try:
+            with target, open(image, "rb") as source:
+                shutil.copyfileobj(source, target)
+        except Exception:
+            os.remove(path)
+            raise
+        return filename, path
+
+
+def import_raster(doc, image, world_file, alert):
+    if not os.path.isfile(image):
+        raise ValueError(f"Image introuvable : {image}")
+    raster = Raster(image, world_file or find_world_file(image))
+    origin = doc[CONTAINER_ORIGIN]
+    new_origin = origin is None
+    if new_origin:
+        origin = raster.centre
+    obj = doc.GetActiveObject()
+    if obj is not None and not c4d.gui.QuestionDialog(
+        f"Appliquer le raster « {os.path.basename(image)} » à l’objet sélectionné « {obj.GetName()} » ?"
+        "\n\nOui : appliquer la texture à cet objet.\nNon : créer un nouveau plan géoréférencé."
+    ):
+        obj = None
+    new_plane = obj is None
+    if new_plane:
+        obj = raster.plane(origin)
+        obj.SetName(os.path.basename(image))
+        display = c4d.BaseTag(c4d.Tdisplay)
+        display[c4d.DISPLAYTAG_AFFECT_DISPLAYMODE] = True
+        display[c4d.DISPLAYTAG_SDISPLAYMODE] = 7
+        obj.InsertTag(display)
+
+    mat = c4d.BaseMaterial(c4d.Mmaterial)
+    shader = c4d.BaseList2D(c4d.Xbitmap)
+    mat.InsertShader(shader)
+    mat[c4d.MATERIAL_COLOR_SHADER] = shader
+    mat[c4d.MATERIAL_PREVIEWSIZE] = 12
+    mat.SetName(os.path.splitext(os.path.basename(image))[0])
+    texture = c4d.TextureTag()
+    texture[c4d.TEXTURETAG_MATERIAL] = mat
+    texture[c4d.TEXTURETAG_TILE] = False
+    texture[CONTAINER_ORIGIN] = raster.centre
+    uvw = raster.mapping(obj, origin, texture)
+    geo = None
+    if not obj.GetTag(GEOTAG):
+        geo = c4d.BaseTag(GEOTAG)
+        geo[CONTAINER_ORIGIN] = origin + obj.GetMg().off
+
+    units = doc[c4d.DOCUMENT_DOCUNIT]
+    change_units = units.GetUnitScale() != (1, c4d.DOCUMENT_UNIT_M)
+    if change_units and not c4d.gui.QuestionDialog("Passer l’unité du document à 1 mètre pour importer le raster ?"):
         return False
- 
-def isInMetre(doc):
-    scale, unit = doc[c4d.DOCUMENT_DOCUNIT].GetUnitScale()
-    if unit == c4d.DOCUMENT_UNIT_M :return True
-    return False
+    filename, copied = texture_reference(image, doc.GetDocumentPath(), alert)
+
+    inserted = []
+    old_scale = units.GetUnitScale()
+    try:
+        shader[c4d.BITMAPSHADER_FILENAME] = filename
+        mat.Message(c4d.MSG_UPDATE)
+        mat.Update(True, True)
+        doc.StartUndo()
+        try:
+            if change_units:
+                units.SetUnitScale(1, c4d.DOCUMENT_UNIT_M)
+                doc[c4d.DOCUMENT_DOCUNIT] = units
+            if new_origin:
+                doc[CONTAINER_ORIGIN] = origin
+            doc.InsertMaterial(mat)
+            inserted.append(mat)
+            if new_plane:
+                doc.InsertObject(obj)
+                inserted.append(obj)
+            # Le tag UVW immédiatement à droite du matériau lui est associé.
+            for tag in (geo, texture, uvw):
+                if tag is not None:
+                    tags = obj.GetTags()
+                    obj.InsertTag(tag, tags[-1] if tags else None)
+                    if not new_plane:
+                        inserted.append(tag)
+            for node in inserted:
+                doc.AddUndo(c4d.UNDOTYPE_NEWOBJ, node)
+        except Exception:
+            for node in reversed(inserted):
+                node.Remove()
+            if new_origin:
+                doc.GetDataInstance().RemoveData(CONTAINER_ORIGIN)
+            if change_units:
+                units.SetUnitScale(*old_scale)
+                doc[c4d.DOCUMENT_DOCUNIT] = units
+            raise
+        finally:
+            doc.EndUndo()
+    except Exception:
+        if copied:
+            os.remove(copied)
+        raise
+    c4d.EventAdd()
+    return True
 
 
-def non_existant_fn(fn):
-    """renvoie un nom de fichier incrementé qui n'existe pas"""
-    i=1
-    name,ext = os.path.splitext(fn)
-    while os.path.exists(fn):
-        fn = f'{name}_{i}{ext}'
-        i+=1
-    return fn
+def main(fn=None, fn_calage=None, alerte=True):
+    if not fn:
+        fn = c4d.storage.LoadDialog(type=c4d.FILESELECTTYPE_ANYTHING,
+                                    title="Sélectionnez l’image ou son fichier de calage")
+    if not fn:
+        return False
+    try:
+        image = os.path.abspath(fn)
+        suffix = os.path.splitext(image)[1].casefold()
+        if not fn_calage and any(suffix in world_suffixes(ext) for ext in IMAGE_EXTENSIONS):
+            fn_calage = image
+            image = image_for_world_file(fn_calage)
+            if not image:
+                return False
+        return import_raster(c4d.documents.GetActiveDocument(), image, fn_calage, alerte)
+    except (ValueError, OSError, RuntimeError, MemoryError, TypeError, AttributeError) as error:
+        c4d.gui.MessageDialog(f"Impossible d’importer {os.path.basename(fn)}.\n{error}")
+        return False
 
-    
-def main(fn = None, fn_calage = None, alerte = True):
-    doc = c4d.documents.GetActiveDocument()
-    #fn = '/Users/donzeo/Documents/TEMP/test_import_SITG_3/format_JPG_2_hepia_ortho_20141102_091001/ORTHOPHOTOS_2012_20cm.jpg'
 
-    if not fn :
-        fn = c4d.storage.LoadDialog(type =c4d.FILESELECTTYPE_IMAGES,title="Séléctionnez l'image :")
-
-    if not fn : return
-    extensions = ['.jpg','.tif','.png','.gif','.psd']
-    if os.path.splitext(fn)[1] not in extensions : 
-        c4d.gui.MessageDialog("Ce n'est pas un fichier image")
-        return
-
-    fn_ss_ext,ext = os.path.splitext(fn)
-    
-    #extension du fichier de calage
-    ext_calage = ext[:2]+ext[-1]+'w'
-    
-    if not fn_calage:
-        #on regarde si il y a un fichier de calage type .tfw
-        
-        if os.path.isfile(fn_ss_ext+ext_calage):
-            fn_calage = fn_ss_ext+ext_calage
-        #ou un autre de type .wld
-        elif os.path.isfile(fn_ss_ext+'.wld'):
-            fn_calage = fn_ss_ext+'.wld'
-        #si aucun n'existe on quitte'
-        else :
-            c4d.gui.MessageDialog("il n'y a pas de fichier de calage .wld ou {0}, l'import est impossible".format(ext_calage))
-            return
-    
-    #on verifie que le document est en metres
-    if not isInMetre(doc):
-        res = c4d.gui.QuestionDialog("""L'unité du document n'est pas le mètre, ce paramètre va être modifié\n\nVoulez-vous continuer? (pas d'annulation possible)""")
-        if not res : return
-        #doc.AddUndo(c4d.UNDOTYPE_CHANGE,doc) #-> ne fonctionne pas !
-        us = doc[c4d.DOCUMENT_DOCUNIT]
-        us.SetUnitScale(1, c4d.DOCUMENT_UNIT_M)
-        doc[c4d.DOCUMENT_DOCUNIT] = us 
-        
-    #on regarde si le document est enregistré pour copier l'image dans le dossier tex     
-    path_doc = doc.GetDocumentPath()   
-    fn_doc = doc.GetDocumentName()  
-    relatif = True  
-
-    if path_doc == '':
-        relatif = False
-        if alerte :
-            c4d.gui.MessageDialog(("""Attention, le document n'étant pas enregistré, le chemin à l'image sera absolu\n"""+
-                                   """Pour créer un chemin relatif vous devrez passer par Fichier/enregistrer le projet"""))
-    
-    #copie de l'image si le document est enregistré
-    if relatif:
-        path_dst = os.path.join(path_doc,'tex')
-        if not os.path.isdir(path_dst):
-            os.makedirs(path_dst)
-        dst = os.path.join(path_dst,os.path.basename(fn))
-
-        # on prend un nom de fichier qui n'existe pas
-        dst = non_existant_fn(dst)
-
-        shutil.copyfile(fn, dst)
-            
-        fn = dst
- 
-    doc.StartUndo()
-    gp = Geopict(fn,fn_calage,c4d.documents.GetActiveDocument())
-    gp.creerTexture(relatif)
-    
-    #si on a un objet sélectionné on plaque dessus
-    op = doc.GetActiveObject()
-    if op:
-        #on regarde si il a un geotag
-        if not op.GetTag(1026472,0):
-            tg = gp.creerGeoTag(op)
-            doc.AddUndo(c4d.UNDOTYPE_NEW,tg)
-        tag = gp.creerTagTex(op, displayTag = False)
-        doc.AddUndo(c4d.UNDOTYPE_NEW,tag)
-            
-    else :
-        gp.creerPlan()
-        
-    
-    c4d.EventAdd()    
-    doc.EndUndo()
-    
-if __name__=='__main__':
+if __name__ == "__main__":
     main()
