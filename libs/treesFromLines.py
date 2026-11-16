@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from libs.od_c4d_utils import TREE_LIBRARY, getArbresSourcesFromFile, undo_group
+
 import c4d, math, os
 
 TXT_NO_SPLINE = "Vous devez sélectionner au moins une spline ou un objet neutre contenant des splines !"
@@ -24,7 +26,7 @@ RAYON_SPHERE_DEFAULT = 3
 
 # Main function
 def main(
-        fn_arbres_srce='/Users/donzeo/Library/Preferences/MAXON/Maxon Cinema 4D R23_2FE1299C/plugins/SITG_C4D/__arbres_2018__.c4d'):
+        fn_arbres_srce=TREE_LIBRARY):
     doc = c4d.documents.GetActiveDocument()
 
     # récupération des splines sélectionnées et du terrain
@@ -35,29 +37,14 @@ def main(
     res = arbresLignes(sp, mnt, fn_arbres_srce=fn_arbres_srce)
     if res:
         res.SetName(NOM_RES)
-        doc.StartUndo()
-        doc.InsertObject(res, pred=mnt)
-        doc.AddUndo(c4d.UNDOTYPE_NEW, res)
-        res.ChangeNBit(c4d.NBIT_OM1_FOLD, c4d.NBITCONTROL_SET)
-        doc.EndUndo()
+        with undo_group(doc):
+            doc.InsertObject(res, pred=mnt)
+            doc.AddUndo(c4d.UNDOTYPE_NEW, res)
+            res.ChangeNBit(c4d.NBIT_OM1_FOLD, c4d.NBITCONTROL_SET)
     c4d.EventAdd()
 
 
 ##############################################################################
-def getArbresSourcesFromFile(
-        fn='/Users/donzeo/Library/Preferences/MAXON/Maxon Cinema 4D R23_2FE1299C/plugins/SITG_C4D/__arbres_2018__.c4d'):
-    if not fn: return None
-
-    if not os.path.isfile(fn):
-        return None
-
-    doc_arbres = c4d.documents.LoadDocument(fn, c4d.SCENEFILTER_OBJECTS)
-    srce_veget = doc_arbres.SearchObject('sources_vegetation')
-
-    if not srce_veget: return None
-
-    return [o.GetClone() for o in srce_veget.GetChildren()]
-
 
 def getMinMaxY(obj):
     mg = obj.GetMg()

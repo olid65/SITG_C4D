@@ -55,4 +55,5 @@ def main():
             url += '&center='+centerX+','+centerY + '&scale=2500'
   
             
-    webbrowser.open(url)
+    if not webbrowser.open(url):
+        raise RuntimeError("Impossible d’ouvrir l’extracteur SITG dans le navigateur.")

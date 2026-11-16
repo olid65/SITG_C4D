@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import c4d
+from libs.od_c4d_utils import undo_group
 
 #Mettre le neutre contenant les objet juste au dessus du terrain dans la hierarchie
 
@@ -13,18 +14,19 @@ def plaquer_sur_poly(groupe,terrain):
         return False        
 
     rc = c4d.utils.GeRayCollider()
-    rc.Init(terrain)
+    if not rc.Init(terrain):
+        raise ValueError("Impossible de projeter les objets sur ce terrain.")
     bbox = terrain.GetRad()
     mg_t = terrain.GetMg()
     inv_m = ~mg_t
-    centre = terrain.GetMp()*mg_t
+    # Les rayons sont exprimés dans le repère local du terrain.
+    centre = terrain.GetMp()
 
     y_max = centre.y +  bbox.y + 1000
     lg = bbox.y * 2 + 2000
   
     for o in objs :
         mg =o.GetMg()
-        i_m= ~mg
         pos = mg.off*inv_m
         pos.y = y_max
 		
@@ -32,6 +34,9 @@ def plaquer_sur_poly(groupe,terrain):
             x= rc.GetNearestIntersection()
             pos.y-=x['distance']
             mg.off = pos*mg_t
+            doc = groupe.GetDocument()
+            if doc:
+                doc.AddUndo(c4d.UNDOTYPE_CHANGE, o)
             o.SetMg(mg)
 
     return True
@@ -46,7 +51,8 @@ def main():
     if not terrain:
         c4d.gui.MessageDialog("Le terrain doit être placé juste après le groupe d'objets dans la hiérarchie")
         return
-    plaquer_sur_poly(obj,terrain)
+    with undo_group(doc):
+        plaquer_sur_poly(obj, terrain)
 
     c4d.EventAdd()
 

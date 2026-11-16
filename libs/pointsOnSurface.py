@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from libs.od_c4d_utils import getArbresSourcesFromFile, undo_group
+
 import c4d,os,math
 from random import random
 
@@ -43,19 +45,6 @@ def pointsOnSurface(op,mnt):
 
     op.Message(c4d.MSG_UPDATE)
 
-def getArbresSourcesFromFile(
-        fn='/Users/donzeo/Library/Preferences/MAXON/Maxon Cinema 4D R23_2FE1299C/plugins/SITG_C4D/__arbres_2018__.c4d'):
-    if not fn: return None
-
-    if not os.path.isfile(fn):
-        return None
-
-    doc_arbres = c4d.documents.LoadDocument(fn, c4d.SCENEFILTER_OBJECTS)
-    srce_veget = doc_arbres.SearchObject('sources_vegetation')
-
-    if not srce_veget: return None
-
-    return [o.GetClone() for o in srce_veget.GetChildren()]
 
 def randomRotMatriceH():
     angle = random()*math.pi*2
@@ -85,10 +74,9 @@ def main():
     rep = c4d.gui.QuestionDialog("""Les points de "{0}" seront projetés sur "{1}"\nVoulez-vous continuer ?""".format(obj_pts.GetName(),mnt.GetName()))
 
     if not rep : return
-    doc.StartUndo()
-    doc.AddUndo(c4d.UNDOTYPE_CHANGE,obj_pts)
-    pointsOnSurface(obj_pts,mnt)
-    doc.EndUndo()
+    with undo_group(doc):
+        doc.AddUndo(c4d.UNDOTYPE_CHANGE,obj_pts)
+        pointsOnSurface(obj_pts,mnt)
     c4d.EventAdd()
 
 

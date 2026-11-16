@@ -102,7 +102,7 @@ class SHP4D(object):
         for rec, geom in zip(self.reader.iterRecords(), self.geoms.GetChildren()):
             mg = geom.GetMg()
             pos = mg.off
-            pos.y = rec[15]
+            pos.y = float(rec[id_champ])
             mg.off = pos
             geom.SetMg(mg)
 
@@ -112,15 +112,14 @@ class SHP4D(object):
             haut = rec[idHaut]
             try:
                 haut = float(haut)
-            except:
+            except (TypeError, ValueError):
                 haut = 0.
             extr[c4d.EXTRUDEOBJECT_MOVE] = c4d.Vector(0, haut, 0)
 
 
 def testShape(fn):
     # on regarde si l'extension est la bonne
-    if os.path.splitext(fn)[1] == '.shp': return True
-    return False
+    return os.path.splitext(fn)[1].lower() == ".shp"
 
 
 def centrerExtrusions(op):

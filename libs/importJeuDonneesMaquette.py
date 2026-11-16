@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 
 
+from libs.importRaster import read_matrix
+from libs.od_c4d_utils import undo_group
+
 import c4d, os, random, math
 from glob import glob
 
@@ -276,7 +279,7 @@ def is_in_doc_path(fn,doc):
 
 class Geopict ():
 
-    """classe pour la gestion d'images g\or\f\renc\es"""
+    """Image géoréférencée de la maquette SITG."""
 
     def __init__(self,fn,fn_calage,doc):
         self.doc = doc
@@ -290,49 +293,24 @@ class Geopict ():
 
     def readCalage(self):
         """fonction pour la lecture du fichier de calage"""
-        try :
-            with open(self.f_calage,'r') as f :
-               self.val_pix = float(f.readline().split()[0])
-               val2 = float(f.readline().split()[0])
-               val3 = float(f.readline().split()[0])
-               val4 = float(f.readline().split()[0])
-               #ATTENTION DANS L?IMPORT SITG GROUPö LE FICHIER DE CALAGE 
-               #A LA MEME TRANSLATION QUE LE 3DS
-               self.val_x = float(f.readline().split()[0]) + TRANSLATION_3DS.x
-               self.val_z = float(f.readline().split()[0]) + TRANSLATION_3DS.z
-               f.close()
-
-
-        except IOError:
-            print ("Il n'y a pas de fichier de calage")
-            return False
-
-            
-
-        else :
-            return True
-
-            
+        self.val_pix, _, _, _, x, z = read_matrix(self.f_calage)
+        # Le calage du lot utilise la même translation que les bâtiments 3DS.
+        self.val_x = x + TRANSLATION_3DS.x
+        self.val_z = z + TRANSLATION_3DS.z
+        return True
 
     def calculRef(self):
-
         bmp = c4d.bitmaps.BaseBitmap()
-
-        try:
-            fn = self.fn
-            bmp.InitWith(fn)
-            self.size_px = bmp.GetSize()
-            self.size = c4d.Vector(self.size_px[0]*self.val_pix,0,
-                         self.size_px[1]*self.val_pix)
-            #pour le min et max ne pas oublier que sur le fichier de calage la position est le centre du premier pixel
-            self.min = c4d.Vector(self.val_x - self.val_pix/2.0,0.0,self.val_z + self.val_pix/2.0 -self.size.z)
-            self.max = self.min+self.size
-            self.centre = (self.min+self.max)/2.0
-        except :
-
-            print ("Probleme avec l'image")
-
-            
+        result, _ = bmp.InitWith(self.fn)
+        if result != c4d.IMAGERESULT_OK:
+            raise ValueError(f"Impossible de lire l’orthophoto : {self.fn}")
+        self.size_px = bmp.GetSize()
+        self.size = c4d.Vector(self.size_px[0] * self.val_pix, 0, self.size_px[1] * self.val_pix)
+        # Le fichier de calage situe le centre du premier pixel.
+        self.min = c4d.Vector(self.val_x - self.val_pix / 2, 0,
+                              self.val_z + self.val_pix / 2 - self.size.z)
+        self.max = self.min + self.size
+        self.centre = (self.min + self.max) / 2
 
     def creerTexture(self,relatif = False, win = False):
         self.mat = c4d.BaseMaterial(c4d.Mmaterial)
@@ -507,151 +485,150 @@ def main(fn_arbres):
     lst_objs = []
     last = doc.GetFirstObject()
     
-    doc.StartUndo()
-    first_o = doc.GetFirstObject()
-    first_mat = doc.GetFirstMaterial()
+    with undo_group(doc):
+        first_o = doc.GetFirstObject()
+        first_mat = doc.GetFirstMaterial()
     
-    #iIMPORT TERRAIN,BATIMENTS; BATI PROJET
-    for fn in glob(path+'/*.3ds'):
+        #iIMPORT TERRAIN,BATIMENTS; BATI PROJET
+        for fn in glob(path+'/*.3ds'):
 
-        #lst_objs.append(onull)
+            #lst_objs.append(onull)
         
-        name = os.path.basename(fn[:-4])
+            name = os.path.basename(fn[:-4])
 
-        res = c4d.documents.MergeDocument(doc, fn, c4d.SCENEFILTER_OBJECTS|c4d.SCENEFILTER_MATERIALS)
+            if not c4d.documents.MergeDocument(doc, fn, c4d.SCENEFILTER_OBJECTS|c4d.SCENEFILTER_MATERIALS):
+                raise ValueError(f"Impossible de charger le fichier 3DS : {fn}")
 
-        objs = []
-        objs[:] = [] #pour etre sur que la liste soit bien vide
+            objs = []
+            objs[:] = [] #pour etre sur que la liste soit bien vide
         
-        obj = doc.GetFirstObject()
-
-        while(obj and obj != last):
-            objs.append(obj)
-            obj = obj.GetNext()
-        
-        #si c'est le mnt ou bati on regroupe sur un seul objet polygonal'
-        if name == 'MNT' or name =='BATIMENTS':
-            o = connect(objs, name)
-            if o:
-                doc.InsertObject(o)
-                doc.AddUndo(c4d.UNDOTYPE_NEW,o)
-                last = o
-                lst_objs.append(o)
-                #on efface les objets polygonaux
-                for obj in objs:
-                    obj.Remove()
-            
-        else:
-            onull = c4d.BaseObject(c4d.Onull)
-            doc.InsertObject(onull)
-            doc.AddUndo(c4d.UNDOTYPE_NEW,onull)
-            onull.SetName(os.path.basename(fn[:-4]))
-            last = onull
-            for o in objs:
-                o.InsertUnder(onull)
-                lst_objs.append(o)
- 
- 
-
-    #IMPORT OUVRAGES ART
-    for fn in os.listdir(path):
-        nom_compl = os.path.join(path,fn)
-        if os.path.isdir(nom_compl):
-            if not oa:
-                oa = c4d.BaseObject(c4d.Onull)
-                oa.SetName(NOM_OA)
-                doc.InsertObject(oa)
-                
-                doc.AddUndo(c4d.UNDOTYPE_NEW,oa)
-                last = oa
-            onull = c4d.BaseObject(c4d.Onull)
-            onull.SetName(fn)
-            onull.InsertUnderLast(oa)
-            
-            
-            for fn_3ds in glob(nom_compl+'/*.3ds'):
-                res = c4d.documents.MergeDocument(doc, fn_3ds, c4d.SCENEFILTER_OBJECTS|c4d.SCENEFILTER_MATERIALS)
-            
             obj = doc.GetFirstObject()
+
             while(obj and obj != last):
-                obj.InsertUnder(onull)
-                lst_objs.append(obj)
-                obj = doc.GetFirstObject()
+                objs.append(obj)
+                obj = obj.GetNext()
+        
+            #si c'est le mnt ou bati on regroupe sur un seul objet polygonal'
+            if name == 'MNT' or name =='BATIMENTS':
+                o = connect(objs, name)
+                if o:
+                    doc.InsertObject(o)
+                    doc.AddUndo(c4d.UNDOTYPE_NEW,o)
+                    last = o
+                    lst_objs.append(o)
+                    #on efface les objets polygonaux
+                    for obj in objs:
+                        obj.Remove()
+            
+            else:
+                onull = c4d.BaseObject(c4d.Onull)
+                doc.InsertObject(onull)
+                doc.AddUndo(c4d.UNDOTYPE_NEW,onull)
+                onull.SetName(os.path.basename(fn[:-4]))
+                last = onull
+                for o in objs:
+                    o.InsertUnder(onull)
+                    lst_objs.append(o)
+ 
+ 
+
+        #IMPORT OUVRAGES ART
+        for fn in os.listdir(path):
+            nom_compl = os.path.join(path,fn)
+            if os.path.isdir(nom_compl):
+                if not oa:
+                    oa = c4d.BaseObject(c4d.Onull)
+                    oa.SetName(NOM_OA)
+                    doc.InsertObject(oa)
                 
-    #CENTRAGE DANS LA SCENE
-    #si le document n'est pas georeference on centre sur l'emprise du MNT
-    centre = None
+                    doc.AddUndo(c4d.UNDOTYPE_NEW,oa)
+                    last = oa
+                onull = c4d.BaseObject(c4d.Onull)
+                onull.SetName(fn)
+                onull.InsertUnderLast(oa)
+            
+            
+                for fn_3ds in glob(nom_compl+'/*.3ds'):
+                    if not c4d.documents.MergeDocument(doc, fn_3ds, c4d.SCENEFILTER_OBJECTS|c4d.SCENEFILTER_MATERIALS):
+                        raise ValueError(f"Impossible de charger le fichier 3DS : {fn_3ds}")
+            
+                obj = doc.GetFirstObject()
+                while(obj and obj != last):
+                    obj.InsertUnder(onull)
+                    lst_objs.append(obj)
+                    obj = doc.GetFirstObject()
+                
+        #CENTRAGE DANS LA SCENE
+        #si le document n'est pas georeference on centre sur l'emprise du MNT
+        centre = None
     
-    mnt = doc.SearchObject('MNT')
+        mnt = doc.SearchObject('MNT')
     
-    if not mnt :
-        print ('pas de centre')
-        return
+        if not mnt :
+            raise ValueError("La maquette importée ne contient aucun terrain MNT.")
     
-    centre = mnt.GetMg().off
+        centre = mnt.GetMg().off
 
     
-    if not origin:
-        origin =  TRANSLATION_3DS + centre
-        doc[CONTAINER_ORIGIN] = origin
+        if not origin:
+            origin =  TRANSLATION_3DS + centre
+            doc[CONTAINER_ORIGIN] = origin
         
     
-    if not origin or not centre:
-        print ("pas d'origine")
-        return
+        if not origin or not centre:
+            print ("pas d'origine")
+            return
          
-    #on fait une translation avec tous les objets polygonaux importés
-    trans = origin - TRANSLATION_3DS
-    for o in lst_objs:
-        mg = o.GetMg()
-        mg.off+=TRANSLATION_3DS -origin
-        o.SetMg(mg)
+        #on fait une translation avec tous les objets polygonaux importés
+        trans = origin - TRANSLATION_3DS
+        for o in lst_objs:
+            mg = o.GetMg()
+            mg.off+=TRANSLATION_3DS -origin
+            o.SetMg(mg)
         
-        #suppression des tags de texture
-        t =o.GetTag(c4d.Ttexture)
-    
-        while t:
-            t.Remove()
+            #suppression des tags de texture
             t =o.GetTag(c4d.Ttexture)
     
-    model = c4d.BaseObject(c4d.Onull)
-    model.SetName(os.path.basename(path))
-    doc.InsertObject(model)
-    doc.AddUndo(c4d.UNDOTYPE_NEW,model)
+            while t:
+                t.Remove()
+                t =o.GetTag(c4d.Ttexture)
     
-    obj = model.GetNext()
-    while obj and obj!= first_o :
-        pred = obj
-        obj = obj.GetNext()
-        pred.InsertUnder(model)
+        model = c4d.BaseObject(c4d.Onull)
+        model.SetName(os.path.basename(path))
+        doc.InsertObject(model)
+        doc.AddUndo(c4d.UNDOTYPE_NEW,model)
     
-    model_cut = cutModel(mnt,model)
-    doc.InsertObject(model_cut)
+        obj = model.GetNext()
+        while obj and obj!= first_o :
+            pred = obj
+            obj = obj.GetNext()
+            pred.InsertUnder(model)
     
-    #suppression des materiaux
-    mat = doc.GetFirstMaterial()
-    while mat and mat!=first_mat:
-        pred = mat
-        mat = mat.GetNext()
-        pred.Remove()
+        model_cut = cutModel(mnt,model)
+        doc.InsertObject(model_cut)
+    
+        #suppression des materiaux
+        mat = doc.GetFirstMaterial()
+        while mat and mat!=first_mat:
+            pred = mat
+            mat = mat.GetNext()
+            pred.Remove()
         
-    #ARBRES
-    # mnt = doc.SearchObject('MNT')
-    # arbres = arbresIGN(mnt,fn_arbres)
-    # if arbres :
-    #     arbres.InsertUnder(model_cut)
+        #ARBRES
+        # mnt = doc.SearchObject('MNT')
+        # arbres = arbresIGN(mnt,fn_arbres)
+        # if arbres :
+        #     arbres.InsertUnder(model_cut)
     
-    ###ORTHOPHOTO
-    fn_ortho = os.path.join(path,NOM_FICHIER_ORTHO)
-    fn_calage = os.path.join(path,NOM_FICHIER_CALAGE)
-    if os.path.isfile(fn_ortho) and os.path.isfile(fn_calage):
-        #MATERIAL
-        gp = Geopict(fn_ortho,fn_calage,c4d.documents.GetActiveDocument())
-        gp.creerTexture(relatif = False)
+        ###ORTHOPHOTO
+        fn_ortho = os.path.join(path,NOM_FICHIER_ORTHO)
+        fn_calage = os.path.join(path,NOM_FICHIER_CALAGE)
+        if os.path.isfile(fn_ortho) and os.path.isfile(fn_calage):
+            #MATERIAL
+            gp = Geopict(fn_ortho,fn_calage,c4d.documents.GetActiveDocument())
+            gp.creerTexture(relatif = False)
     
-        gp.creerTagTex(model_cut,displayTag = False)
-    
-    doc.EndUndo()
+            gp.creerTagTex(model_cut,displayTag = False)
     c4d.EventAdd()
   
 

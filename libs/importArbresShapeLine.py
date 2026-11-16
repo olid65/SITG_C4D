@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from libs.od_c4d_utils import TREE_LIBRARY, undo_group
+
 import c4d
 from libs import shapefile
 from libs import treesFromLines
@@ -14,8 +16,7 @@ TXT_SHP_NOT_POLYGON = "Ce n'est pas un shapefile de type polyligne"
 
 def testShape(fn):
     # on regarde si l'extension est la bonne
-    if os.path.splitext(fn)[1] == '.shp': return True
-    return False
+    return os.path.splitext(fn)[1].lower() == ".shp"
 
 def shpPoly2spline(shp,centre,hasZ = False):
     pts = []
@@ -42,26 +43,23 @@ def shpPoly2spline(shp,centre,hasZ = False):
 
 def splinesFromShapefile(fn,origine):
 
-    reader = shapefile.Reader(fn)
-
-
-
-    hasZ = False
-
-    if reader.shapeType == shapefile.POLYLINE:
+    with shapefile.Reader(fn) as reader:
         hasZ = False
-    elif reader.shapeType == shapefile.POLYLINEZ:
-        hasZ = True
-    else :
-        c4d.gui.MessageDialog(TXT_SHP_NOT_POLYGON)
-        return None
 
-    splines = []
+        if reader.shapeType == shapefile.POLYLINE:
+            hasZ = False
+        elif reader.shapeType == shapefile.POLYLINEZ:
+            hasZ = True
+        else :
+            c4d.gui.MessageDialog(TXT_SHP_NOT_POLYGON)
+            return None
 
-    for shp in reader.iterShapes():
-        splines.append(shpPoly2spline(shp,origine,hasZ))
+        splines = []
 
-    return splines
+        for shp in reader.iterShapes():
+            splines.append(shpPoly2spline(shp,origine,hasZ))
+
+        return splines
 
 
 def fusionSplines(lst_sp, nom=None):
@@ -96,7 +94,7 @@ def fusionSplines(lst_sp, nom=None):
 
 
 # Main function
-def main(fn_arbres_srce = '/Users/olivier.donze/Library/Preferences/MAXON/Maxon Cinema 4D R23_2FE1299C/plugins/SITG_C4D/__arbres_2018__.c4d'):
+def main(fn_arbres_srce = TREE_LIBRARY):
 
     #récupération du MNT
     doc = c4d.documents.GetActiveDocument()
@@ -123,15 +121,16 @@ def main(fn_arbres_srce = '/Users/olivier.donze/Library/Preferences/MAXON/Maxon 
         return
 
     splines = splinesFromShapefile(fn, origine)
-    if not splines : return
+    if not splines:
+        return
     sp = fusionSplines(splines)
 
     res = treesFromLines.arbresLignes(sp, mnt, fn_arbres_srce=fn_arbres_srce)
     if res:
-        doc.InsertObject(res, pred=mnt)
-        doc.AddUndo(c4d.UNDOTYPE_NEW, res)
-        res.ChangeNBit(c4d.NBIT_OM1_FOLD, c4d.NBITCONTROL_SET)
-        doc.EndUndo()
+        with undo_group(doc):
+            doc.InsertObject(res, pred=mnt)
+            doc.AddUndo(c4d.UNDOTYPE_NEW, res)
+            res.ChangeNBit(c4d.NBIT_OM1_FOLD, c4d.NBITCONTROL_SET)
     c4d.EventAdd()
 
 if __name__ == '__main__':

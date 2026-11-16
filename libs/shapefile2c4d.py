@@ -71,7 +71,10 @@ def shp2polygon(fn, origin):
 
 
 def main():
-    fn = '/Users/olivier.donze/Mandats/Penetrantes_vertes_2021/SIG/isoligne_poly_mnt20m_Simplif_lissage100m.shp'
+    doc = c4d.documents.GetActiveDocument()
+    fn = c4d.storage.LoadDialog(title="Sélectionnez un fichier de courbes (.shp)")
+    if not fn:
+        return
     origin = doc[CONTAINER_ORIGIN]
     res = c4d.BaseObject(c4d.Onull)
     for sp in shp2splines(fn, origin):
@@ -80,5 +83,5 @@ def main():
     c4d.EventAdd()
 
 
-if __name__ == "__main_":
+if __name__ == "__main__":
     main()

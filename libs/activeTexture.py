@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from libs.od_c4d_utils import undo_group
+
 import c4d
 
 
@@ -53,11 +55,10 @@ def activeMat(op,mat,doc):
 
 
 def activeSelectMat(doc):
-    doc.StartUndo()
-    mat = doc.GetActiveMaterial()
-    if not mat : return
-    activeMat(doc.GetFirstObject(),doc.GetActiveMaterial(),doc)
-    doc.EndUndo()
+    with undo_group(doc):
+        mat = doc.GetActiveMaterial()
+        if not mat : return
+        activeMat(doc.GetFirstObject(),doc.GetActiveMaterial(),doc)
     
 def main():
     activeSelectMat(c4d.documents.GetActiveDocument())

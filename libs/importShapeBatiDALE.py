@@ -106,7 +106,7 @@ class SHP4D(object):
             mg = geom.GetMg()
             pos = mg.off
             try : pos.y = float(rec[id_champ])
-            except : pos.y = 0.0
+            except (TypeError, ValueError): pos.y = 0.0
             mg.off = pos
             geom.SetMg(mg)
 
@@ -115,14 +115,13 @@ class SHP4D(object):
         idBas = self.fields_name.index(champBas)
         for rec, extr in zip(self.reader.iterRecords(), self.geoms.GetChildren()):
             try : haut = float(rec[idHaut])
-            except : haut = 0.0
+            except (TypeError, ValueError): haut = 0.0
             extr[c4d.EXTRUDEOBJECT_EXTRUSIONOFFSET] = haut
 
 
 def testShape(fn):
     # on regarde si l'extension est la bonne
-    if os.path.splitext(fn)[1] == '.shp': return True
-    return False
+    return os.path.splitext(fn)[1].lower() == ".shp"
 
 
 def main():

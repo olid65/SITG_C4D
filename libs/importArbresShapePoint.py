@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from libs.od_c4d_utils import TREE_LIBRARY
+
 import c4d
 from libs import shapefile
 import os, random
@@ -52,8 +54,7 @@ FACTEUR_DIAMETRE = 1.
 
 def testShape(fn):
     # on regarde si l'extension est la bonne
-    if os.path.splitext(fn)[1] == '.shp': return True
-    return False
+    return os.path.splitext(fn)[1].lower() == ".shp"
 
 
 def create_point_object(points):
@@ -200,8 +201,9 @@ def creerGeoTag(obj, doc, centre):
 
 
 # Main function
-def main(fn=None,fn_arbres='/Users/donzeo/Library/Preferences/MAXON/Maxon Cinema 4D R21_90860A1D/plugins/SITG_C4D/__arbres_2018__.c4d'):
-    fn = c4d.storage.LoadDialog(type=c4d.FILESELECTTYPE_IMAGES, title="Séléctionnez le fichier .shp :")
+def main(fn=None,fn_arbres=TREE_LIBRARY):
+    if fn is None:
+        fn = c4d.storage.LoadDialog(type=c4d.FILESELECTTYPE_IMAGES, title="Séléctionnez le fichier .shp :")
     if not fn: return
 
     if not testShape(fn):
@@ -281,7 +283,7 @@ def main(fn=None,fn_arbres='/Users/donzeo/Library/Preferences/MAXON/Maxon Cinema
             if not z:
                 try:
                     z = shp.z[0]
-                except:
+                except (AttributeError, IndexError):
                     pass
             pos = c4d.Vector(x, z, y) - centre
             points.append(pos)

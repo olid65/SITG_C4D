@@ -68,7 +68,8 @@ def readFWT(fn):
 
             scale = c4d.Vector(scalex,scaley,scalez)*100
             translation = c4d.Vector(transx,transy,transz)
-    except : return False
+    except (OSError, IndexError, ValueError) as error:
+        raise ValueError(f"Fichier de transformation illisible : {fn}") from error
 
     return translation,scale
 
@@ -135,11 +136,11 @@ def merge3ds(fn_3ds,doc, lyrname):
     res = c4d.BaseObject(c4d.Onull)
     res.SetName(name)
 
+    flags = c4d.SCENEFILTER_OBJECTS
     if MATERIAUX:
-        c4d.documents.MergeDocument(doc, fn_3ds, c4d.SCENEFILTER_OBJECTS|c4d.SCENEFILTER_MATERIALS,None)
-    else:
-        c4d.documents.MergeDocument(doc, fn_3ds, c4d.SCENEFILTER_OBJECTS,None)
-
+        flags |= c4d.SCENEFILTER_MATERIALS
+    if not c4d.documents.MergeDocument(doc, fn_3ds, flags, None):
+        raise ValueError(f"Impossible de charger le fichier 3DS : {fn_3ds}")
 
     objs = []
     obj = doc.GetFirstObject()

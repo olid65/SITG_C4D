@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from libs.od_c4d_utils import getArbresSourcesFromFile, undo_group
+
 import c4d, math
 import os.path
 
@@ -21,7 +23,6 @@ NOM_SRCE_ARBRES = 'sources_vegetation'
 def main(fn_arbres_srce):
     """ """
     doc = c4d.documents.GetActiveDocument()
-    doc.StartUndo()
     # récupération des splines sélectionnées et du terrain
     sel = getSplinesAndMNT(doc)
     if not sel: return
@@ -29,28 +30,14 @@ def main(fn_arbres_srce):
 
     res = arbresSurface(splines, mnt, fn_arbres_srce=fn_arbres_srce)
     if res :
-        doc.InsertObject(res, pred=mnt)
-        doc.AddUndo(c4d.UNDOTYPE_NEW, res)
-        res.ChangeNBit(c4d.NBIT_OM1_FOLD, c4d.NBITCONTROL_SET)
-        doc.EndUndo()
+        with undo_group(doc):
+            doc.InsertObject(res, pred=mnt)
+            doc.AddUndo(c4d.UNDOTYPE_NEW, res)
+            res.ChangeNBit(c4d.NBIT_OM1_FOLD, c4d.NBITCONTROL_SET)
     c4d.EventAdd()
 
 ################################################
 
-
-def getArbresSourcesFromFile(
-        fn='/Users/donzeo/Library/Preferences/MAXON/Maxon Cinema 4D R23_2FE1299C/plugins/SITG_C4D/__arbres_2018__.c4d'):
-    if not fn: return None
-
-    if not os.path.isfile(fn):
-        return None
-
-    doc_arbres = c4d.documents.LoadDocument(fn, c4d.SCENEFILTER_OBJECTS)
-    srce_veget = doc_arbres.SearchObject('sources_vegetation')
-
-    if not srce_veget: return None
-
-    return [o.GetClone() for o in srce_veget.GetChildren()]
 
 
 # RECUPERATION SPLINES ET TERRAIN ######################################################
@@ -187,7 +174,7 @@ def cutMNTfromSpline(mnt, splines):
     if temp_doc:
         temp_doc.InsertObject(boolObj)
         temp_doc_polygonize = temp_doc.Polygonize()
-        bool_res = temp_doc_polygonize.GetFirstObject()
+        bool_res = temp_doc_polygonize.GetFirstObject() if temp_doc_polygonize else None
 
         if bool_res:
             mnt_extract = bool_res.GetDown()
@@ -195,6 +182,8 @@ def cutMNTfromSpline(mnt, splines):
             if mnt_extract:
                 mnt_extract.SetName(mnt.GetName() + SUFFIX_EXTRACT)
 
+    if not mnt_extract:
+        raise ValueError("La découpe ne contient aucune surface de terrain.")
     return mnt_extract.GetClone()
 
 

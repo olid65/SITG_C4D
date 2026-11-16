@@ -32,9 +32,8 @@ def creerGeoTag(obj, doc, centre):
 
 class SHP4D(object):
 
-    def __init__(self, fn, doc=c4d.documents.GetActiveDocument()):
-
-        self.doc = doc
+    def __init__(self, fn, doc=None):
+        self.doc = c4d.documents.GetActiveDocument() if doc is None else doc
         self.fn = fn
 
         # NOM du shape
@@ -118,7 +117,7 @@ class SHP4D(object):
             shp.parts.append(nb_pts)
             segs = [fin - dbt for dbt, fin in zip(shp.parts[:-1], shp.parts[1:])]
             for i, n in enumerate(segs):
-                sp.SetSegment(i, n, closed=True)
+                sp.SetSegment(i, n, closed=False)
 
         sp.Message(c4d.MSG_UPDATE)
         sp.InsertUnderLast(self.geoms)
@@ -144,7 +143,7 @@ class SHP4D(object):
 
         sp.Message(c4d.MSG_UPDATE)
         sp.InsertUnder(extr)
-        extr.InsertUnder(self.geoms)
+        extr.InsertUnderLast(self.geoms)
 
     def nomatch(self, shp):
         print ('type de shape non pris en charge')
@@ -154,7 +153,7 @@ class SHP4D(object):
         for rec, geom in zip(self.reader.iterRecords(), self.geoms.GetChildren()):
             mg = geom.GetMg()
             pos = mg.off
-            pos.y = rec[15]
+            pos.y = float(rec[id_champ])
             mg.off = pos
             geom.SetMg(mg)
 
@@ -168,8 +167,7 @@ class SHP4D(object):
 
 def testShape(fn):
     # on regarde si l'extension est la bonne
-    if os.path.splitext(fn)[1] == '.shp': return True
-    return False
+    return os.path.splitext(fn)[1].lower() == ".shp"
 
 
 def main(fn=None):

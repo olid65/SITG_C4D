@@ -3,6 +3,8 @@ import math
 import os
 import shutil
 
+from libs.od_c4d_utils import undo_group
+
 import c4d
 
 CONTAINER_ORIGIN = 1026473
@@ -226,38 +228,37 @@ def import_raster(doc, image, world_file, alert):
         shader[c4d.BITMAPSHADER_FILENAME] = filename
         mat.Message(c4d.MSG_UPDATE)
         mat.Update(True, True)
-        doc.StartUndo()
-        try:
-            if change_units:
-                units.SetUnitScale(1, c4d.DOCUMENT_UNIT_M)
-                doc[c4d.DOCUMENT_DOCUNIT] = units
-            if new_origin:
-                doc[CONTAINER_ORIGIN] = origin
-            doc.InsertMaterial(mat)
-            inserted.append(mat)
-            if new_plane:
-                doc.InsertObject(obj)
-                inserted.append(obj)
-            # Le tag UVW immédiatement à droite du matériau lui est associé.
-            for tag in (geo, texture, uvw):
-                if tag is not None:
-                    tags = obj.GetTags()
-                    obj.InsertTag(tag, tags[-1] if tags else None)
-                    if not new_plane:
-                        inserted.append(tag)
-            for node in inserted:
-                doc.AddUndo(c4d.UNDOTYPE_NEWOBJ, node)
-        except Exception:
-            for node in reversed(inserted):
-                node.Remove()
-            if new_origin:
-                doc.GetDataInstance().RemoveData(CONTAINER_ORIGIN)
-            if change_units:
-                units.SetUnitScale(*old_scale)
-                doc[c4d.DOCUMENT_DOCUNIT] = units
-            raise
-        finally:
-            doc.EndUndo()
+        with undo_group(doc):
+            try:
+                if change_units:
+                    units.SetUnitScale(1, c4d.DOCUMENT_UNIT_M)
+                    doc[c4d.DOCUMENT_DOCUNIT] = units
+                if new_origin:
+                    doc[CONTAINER_ORIGIN] = origin
+                doc.InsertMaterial(mat)
+                inserted.append(mat)
+                if new_plane:
+                    doc.InsertObject(obj)
+                    inserted.append(obj)
+                # Le tag UVW immédiatement à droite du matériau lui est associé.
+                for tag in (geo, texture, uvw):
+                    if tag is not None:
+                        tags = obj.GetTags()
+                        obj.InsertTag(tag, tags[-1] if tags else None)
+                        if not new_plane:
+                            inserted.append(tag)
+                for node in inserted:
+                    doc.AddUndo(c4d.UNDOTYPE_NEWOBJ, node)
+            except Exception:
+                for node in reversed(inserted):
+                    node.Remove()
+                if new_origin:
+                    doc.GetDataInstance().RemoveData(CONTAINER_ORIGIN)
+                if change_units:
+                    units.SetUnitScale(*old_scale)
+                    doc[c4d.DOCUMENT_DOCUNIT] = units
+                raise
+
     except Exception:
         if copied:
             os.remove(copied)

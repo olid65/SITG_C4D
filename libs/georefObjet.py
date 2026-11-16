@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from libs.od_c4d_utils import undo_group
+
 import c4d
 
 CONTAINER_ORIGIN =1026473
@@ -27,11 +29,9 @@ def main():
     if not origine :
         print ("document non géoréférencé")
         return
-    doc.StartUndo()
-    for o in doc.GetActiveObjects(c4d.GETACTIVEOBJECTFLAGS_0):
-        georefObj(o,doc)
-
-    doc.EndUndo()
+    with undo_group(doc):
+        for o in doc.GetActiveObjects(c4d.GETACTIVEOBJECTFLAGS_0):
+            georefObj(o,doc)
     c4d.EventAdd()
 
 

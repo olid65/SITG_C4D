@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from libs.od_c4d_utils import undo_group
+
 import c4d, os, random, math
 from glob import glob
 from math import pi
@@ -304,12 +306,10 @@ def main(fn_arbres):
         else : obj = op
 
     
-    doc.StartUndo()
+    with undo_group(doc):
         
-    #ARBRES
-    arbresIGN(op,fn_arbres,doc)
-    
-    doc.EndUndo()
+        #ARBRES
+        arbresIGN(op,fn_arbres,doc)
     c4d.EventAdd()
   
 

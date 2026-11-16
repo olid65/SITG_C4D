@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 
+from libs.od_c4d_utils import undo_group
+
 import c4d, re, sys
 import glob  
 import os.path  
 
-sys.path.append(os.path.dirname(__file__))
 from libs import shapefile
-import import3DS, importMNT, importRaster
+from libs import import3DS, importMNT, importRaster
 
 
 CONTAINER_ORIGIN =1026473
@@ -101,75 +102,69 @@ def main():
     doc[c4d.DOCUMENT_DOCUNIT]= us
 
     dic_fn = dicodirectory(path)
-    doc.StartUndo()
+    with undo_group(doc):
     
-    bat = None
-    mnt = None
+        bat = None
+        mnt = None
 
-    ######################################################################
-    #import des 3ds
-    ######################################################################
-    lst_3ds =  dic_fn.get('.3ds', [])
-    for fn_3ds in lst_3ds:
-        name = os.path.basename(fn_3ds)
-        #si le fichier commence par le PREFIXE_BAT c'est du bati3D'
-        if re.search(r'^'+PREFIXE_BAT3D,name):
-            import3DS.main(fn_3ds)
+        ######################################################################
+        #import des 3ds
+        ######################################################################
+        lst_3ds =  dic_fn.get('.3ds', [])
+        for fn_3ds in lst_3ds:
+            name = os.path.basename(fn_3ds)
+            #si le fichier commence par le PREFIXE_BAT c'est du bati3D'
+            if re.search(r'^'+PREFIXE_BAT3D,name):
+                import3DS.main(fn_3ds)
 
-        #si le fichier commence par le PREFIXE_MNT c'est un MNT 3ds'
-        elif re.search(r'^'+PREFIXE_MNT,name):
-            import3DS.main(fn_3ds)
+            #si le fichier commence par le PREFIXE_MNT c'est un MNT 3ds'
+            elif re.search(r'^'+PREFIXE_MNT,name):
+                import3DS.main(fn_3ds)
 
-        #si le nom sans l'extension ne contient que des chiffres c'est un ouvrage d'art    
-        elif name[:-4].isdigit():
-            import3DS.main(fn_3ds)
+            #si le nom sans l'extension ne contient que des chiffres c'est un ouvrage d'art    
+            elif name[:-4].isdigit():
+                import3DS.main(fn_3ds)
 
-        #si il y a un fichier shape avec le même nom c'est un batiment remarquable
-        elif os.path.isfile(fn_3ds[:-4]+'.shp'):
-            print (name,"->bâtiments remarquables pas encore pris en compte")
+            #si il y a un fichier shape avec le même nom c'est un batiment remarquable
+            elif os.path.isfile(fn_3ds[:-4]+'.shp'):
+                print (name,"->bâtiments remarquables pas encore pris en compte")
         
-        #sinon on passe
-        else:
-            print (fn_3ds, "-> pas pris en compte")
+            #sinon on passe
+            else:
+                print (fn_3ds, "-> pas pris en compte")
 
-    ######################################################################
-    #import des shapefile
-    ######################################################################
-    lst_shp =  dic_fn.get('.shp', [])
-    for fn_shp in lst_shp:
-        name = os.path.basename(fn_shp)
-        #ICA
-        if name == NOM_ICA:
-            print (name, "-> ICA")
-        #AUTRES
-        else:
-            print (name)
-    ######################################################################
-    #import des images géoréférencées
-    ######################################################################
-    #TODO extension fichier jgw & co
+        ######################################################################
+        #import des shapefile
+        ######################################################################
+        lst_shp =  dic_fn.get('.shp', [])
+        for fn_shp in lst_shp:
+            name = os.path.basename(fn_shp)
+            #ICA
+            if name == NOM_ICA:
+                print (name, "-> ICA")
+            #AUTRES
+            else:
+                print (name)
+        ######################################################################
+        #import des images géoréférencées
+        ######################################################################
+        #TODO extension fichier jgw & co
     
-    lst_img_georef = []
-    lst_wld =  dic_fn.get('.wld', [])
-    for fn_wld in lst_wld:
-        fn_img = getImgGeoref(fn_wld,dic_fn)
-        if fn_img:
-            #on ajoute le tuple fichier calage, fichier image à la liste
-            #lst_img_georef.append(fn_wld,fn_img)
-            #materiaux et texturer les objets
-            importRaster.main(fn_img,fn_wld, alerte = False)
-    ######################################################################
-    #import mnt et/ou mns asc
-    ######################################################################
-    lst_asc = dic_fn.get('.asc', [])
-    for fn in lst_asc:
-        importMNT.main(fn)
-    
-
-    
-    
-    
-    doc.EndUndo()
+        lst_img_georef = []
+        lst_wld =  dic_fn.get('.wld', [])
+        for fn_wld in lst_wld:
+            fn_img = getImgGeoref(fn_wld,dic_fn)
+            if fn_img:
+                #on ajoute le tuple fichier calage, fichier image à la liste
+                #lst_img_georef.append(fn_wld,fn_img)
+                #materiaux et texturer les objets
+                importRaster.main(fn_img,fn_wld, alerte = False)
+        ######################################################################
+        #import mnt et/ou mns asc
+        ######################################################################
+        lst_asc = dic_fn.get('.asc', [])
+        for fn in lst_asc:
+            importMNT.main(fn)
     c4d.EventAdd()
     
 if __name__=='__main__':

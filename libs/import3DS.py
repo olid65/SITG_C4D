@@ -4,6 +4,8 @@
 #nom selon le fichier
 
 
+from libs.od_c4d_utils import undo_group
+
 import c4d
 import re,os
 
@@ -121,45 +123,45 @@ def main(fn = None):
     if not fn : return
     nom, ext =  os.path.splitext(os.path.basename(fn))
 
-    if not ext == '.3ds' : 
+    if ext.lower() != '.3ds' : 
         c4d.gui.MessageDialog("Ce n'est pas un fichier 3ds")
         return
     
-    doc.StartUndo()
-    first_object = doc.GetFirstObject()
+    with undo_group(doc):
+        first_object = doc.GetFirstObject()
     
-    c4d.documents.MergeDocument(doc, fn, c4d.SCENEFILTER_OBJECTS)
+        if not c4d.documents.MergeDocument(doc, fn, c4d.SCENEFILTER_OBJECTS):
+            raise ValueError(f"Impossible de charger le fichier 3DS : {fn}")
     
-    objs = []
-    obj = doc.GetFirstObject()
-    while obj:
-        if obj == first_object : break
-        objs.append(obj)
-        obj = obj.GetNext()
+        objs = []
+        obj = doc.GetFirstObject()
+        while obj:
+            if obj == first_object : break
+            objs.append(obj)
+            obj = obj.GetNext()
         
-    #si on a des batiments existants ou projet on stocke les
-    #les polygones pour pouvoir mettre à l'échelle différenciée
-    #type échelle Magnin'
-    bc = None
-    if nom == NOM_BAT3D or nom == NOM_BAT_PROJET: bc = True
-    connectSupprim(objs,nom,doc,bc)
+        #si on a des batiments existants ou projet on stocke les
+        #les polygones pour pouvoir mettre à l'échelle différenciée
+        #type échelle Magnin'
+        bc = None
+        if nom == NOM_BAT3D or nom == NOM_BAT_PROJET: bc = True
+        connectSupprim(objs,nom,doc,bc)
     
-    obj = doc.GetFirstObject()
-    while obj:
-        if obj == first_object : break
-        centrerAxe(obj)
-        mg = obj.GetMg()
-        if not doc[CONTAINER_ORIGIN]:
-            doc[CONTAINER_ORIGIN] = mg.off + DECALAGE
-            mg.off = c4d.Vector()
-        else :
-            mg.off += DECALAGE - doc[CONTAINER_ORIGIN]
-        obj.SetMg(mg)    
-        obj = obj.GetNext()
+        obj = doc.GetFirstObject()
+        while obj:
+            if obj == first_object : break
+            centrerAxe(obj)
+            mg = obj.GetMg()
+            if not doc[CONTAINER_ORIGIN]:
+                doc[CONTAINER_ORIGIN] = mg.off + DECALAGE
+                mg.off = c4d.Vector()
+            else :
+                mg.off += DECALAGE - doc[CONTAINER_ORIGIN]
+            obj.SetMg(mg)    
+            obj = obj.GetNext()
 
-    #c4d.CallCommand(12148) # Cadrer la géométrie
-    c4d.EventAdd()
-    doc.EndUndo()
+        #c4d.CallCommand(12148) # Cadrer la géométrie
+        c4d.EventAdd()
     
     
 if __name__=='__main__':

@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 
+from libs.od_c4d_utils import report_errors, undo_group
+
 import c4d
-import shapefile
+from libs import shapefile
 import os
 
 # Script state in the menu or the command palette
@@ -171,6 +173,7 @@ class DlgBbox(c4d.gui.GeDialog):
         plane.SetAbsPos(pos)
         return plane
 
+    @report_errors
     def Command(self, id, msg):
         # DEPUIS L'OBJET ACTIF
         # TODO : sélection multiple
@@ -233,17 +236,16 @@ class DlgBbox(c4d.gui.GeDialog):
             if mini == c4d.Vector(0) or maxi == c4d.Vector(0):
                 return True
             doc = c4d.documents.GetActiveDocument()
-            doc.StartUndo()
-            origine = doc[CONTAINER_ORIGIN]
-            if not origine:
-                origine = (mini + maxi) / 2
-                # pas réussi à faire un undo pour le doc !
-                doc[CONTAINER_ORIGIN] = origine
+            with undo_group(doc):
+                origine = doc[CONTAINER_ORIGIN]
+                if not origine:
+                    origine = (mini + maxi) / 2
+                    # pas réussi à faire un undo pour le doc !
+                    doc[CONTAINER_ORIGIN] = origine
 
-            plane = self.planeFromBbox(mini, maxi, origine)
-            doc.AddUndo(c4d.UNDOTYPE_NEW, plane)
-            doc.InsertObject(plane)
-            doc.EndUndo()
+                plane = self.planeFromBbox(mini, maxi, origine)
+                doc.AddUndo(c4d.UNDOTYPE_NEW, plane)
+                doc.InsertObject(plane)
             c4d.EventAdd()
 
         # EXPORT SHAPEFILE
